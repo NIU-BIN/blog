@@ -1,0 +1,15 @@
+{
+  "devDependencies": {
+    "@types/node": "^20.11.14",
+    "vitepress": "1.0.0-rc.40"
+  },
+  "scripts": {
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
+  },
+  "dependencies": {
+    "less": "^4.2.0",
+    "less-loader": "^12.2.0"
+  }
+}
