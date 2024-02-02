@@ -9,12 +9,15 @@
               {{ title }}
             </h1>
             <h3 class="description">
-              {{ description }}
+              {{ currentString }}
             </h3>
           </div>
         </div>
         <Waves />
-        <div class="aaa"></div>
+        <div class="home_container">
+          <ArticleList />
+          <AuthorCard />
+        </div>
       </div>
     </template>
     <template #doc-before> doc-before </template>
@@ -25,13 +28,29 @@
 <script setup>
 import Theme from "vitepress/theme";
 import Waves from "../components/Waves/index.vue";
+import ArticleList from "../components/ArticleList/index.vue";
+import AuthorCard from "../components/AuthorCard/index.vue";
 import { useData } from "vitepress";
+import { useTypewriter, getFileBirthTime } from "../utils";
 
 const { Layout } = Theme;
 
-const { title, description } = useData();
+const { title, description, frontmatter } = useData();
+console.log("frontmatter: ", frontmatter.value);
+
+const { currentString } = useTypewriter(description.value, 120);
+
+getFileBirthTime();
 </script>
 <style lang="less" scoped>
+@keyframes blink {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
 .swiper {
   position: relative;
 
@@ -43,14 +62,14 @@ const { title, description } = useData();
   }
   .swiper_content {
     position: absolute;
-    top: 38%;
+    top: 40%;
     left: 50%;
     transform: translateX(-50%);
     text-align: center;
     .title {
       display: inline-block;
       line-height: normal;
-      font-size: 52px;
+      font-size: 36px;
       font-weight: bold;
       color: #fff;
       // -webkit-background-clip: text;
@@ -71,10 +90,16 @@ const { title, description } = useData();
       font-size: 20px;
       color: #fff;
     }
+    .description::after {
+      content: "_";
+      animation: blink 1.6s infinite;
+    }
   }
 }
 
-.aaa {
-  height: 50vh;
+.home_container {
+  display: flex;
+  width: 1050px;
+  gap: 20px;
 }
 </style>

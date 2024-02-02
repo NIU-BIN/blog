@@ -22,10 +22,13 @@ export default defineConfig({
     },
   },
   // title: "@calf/theme",
-  title: "vitepress-theme-fresh",
-  description: "一款简洁的 vitepress 博客 & 文档 主题。",
+  // title: "vitepress-theme-fresh",
+  // description: "一款简洁的 vitepress 博客 & 文档 主题。",
+  title: "友人Aの博客",
+  description: "おとといは兎をみたの，昨日は鹿，今日はあなた",
   themeConfig: {
     logo: "logo.jpg",
+    outline: [2, 3],
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: "主页", link: "/" },

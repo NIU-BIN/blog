@@ -1,6 +1,7 @@
 {
   "devDependencies": {
     "@types/node": "^20.11.14",
+    "fast-glob": "^3.3.2",
     "vitepress": "1.0.0-rc.40"
   },
   "scripts": {
@@ -10,6 +11,7 @@
   },
   "dependencies": {
     "less": "^4.2.0",
-    "less-loader": "^12.2.0"
+    "less-loader": "^12.2.0",
+    "vue": "^3.4.15"
   }
 }

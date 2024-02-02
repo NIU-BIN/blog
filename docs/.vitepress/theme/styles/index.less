@@ -67,7 +67,7 @@ html {
   --chat-bg: #f4f6fb;
 }
 
-[theme="dark"]:root {
+.dark:root {
   --comment-color: var(--grey-1);
   --grey-0: #222;
   --grey-1: #21252b;
@@ -136,6 +136,18 @@ html.dark {
     rgba(var(--bg-gradient-home), 0) 700%
   );
 
+  .VPNav,
+  .VPNavBar,
+  .wrapper,
+  .container {
+    transition: none !important;
+    border: none !important;
+  }
+
+  .VPNav > .has-local-nav {
+    background-color: #fff;
+  }
+
   // 导航栏样式
   .VPNavBar.top {
     .title {
@@ -156,6 +168,17 @@ html.dark {
   }
   .VPNavBarTitle.has-sidebar .title {
     border: none;
+  }
+
+  .VPNavBar:not(.top) .content-body {
+    background-color: transparent;
+  }
+}
+
+// 暗夜模式下
+.dark {
+  .VPNav > .has-local-nav {
+    background-color: #1d1d20;
   }
 }
 
