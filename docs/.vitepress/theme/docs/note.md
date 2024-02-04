@@ -23,6 +23,11 @@ Vite 的 CJS Node API 构建已经被废弃，使用.mjs/.mts 扩展名可以
 
 https://cn.vitejs.dev/guide/troubleshooting
 
-## 获取 md 读写时间
+## 如何操作文件
 
-使用`fast-glob`
+使用 node 将所需文件相关信息写入配置
+
+1. 如何使用 node
+2. 如何写入配置
+
+## 文章封面

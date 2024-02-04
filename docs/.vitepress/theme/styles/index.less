@@ -13,6 +13,9 @@ html {
 }
 
 :root {
+  // ---------new
+  --shadow: #ccc;
+  // ----------
   --comment-color: #f1f2f3;
   --grey-0: #fff;
   --grey-1: #fdfdfd;
@@ -68,6 +71,9 @@ html {
 }
 
 .dark:root {
+  // ----new
+  --shadow: #3a3a3a;
+  // ------
   --comment-color: var(--grey-1);
   --grey-0: #222;
   --grey-1: #21252b;
@@ -75,7 +81,7 @@ html {
   --grey-3: #444;
   --grey-4: #666;
   --grey-5: #aaa;
-  --grey-6: #ccc;
+  --grey-6: #383333;
   --grey-7: #ddd;
   --grey-8: #eee;
   --grey-9: #f7f7f7;
@@ -189,10 +195,4 @@ html.dark {
 .home {
   margin-top: calc(-1 * var(--vp-nav-height));
   width: 100%;
-  .swiper {
-    // height: calc(100vh - var(--vp-nav-height));
-    background-image: url(./swiper_bg.jpg);
-    height: 100vh;
-    // background-color: #bdc3cc;
-  }
 }

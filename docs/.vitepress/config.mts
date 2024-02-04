@@ -1,8 +1,12 @@
-import { defineConfig } from "vitepress";
+import { DefaultTheme, defineConfig } from "vitepress";
 import { fileURLToPath, URL } from "node:url";
+import { getThemeConfig } from "./theme/utils/node";
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
+  extends: {
+    themeConfig: getThemeConfig(),
+  },
   vite: {
     resolve: {
       alias: [
@@ -21,11 +25,7 @@ export default defineConfig({
       ],
     },
   },
-  // title: "@calf/theme",
-  // title: "vitepress-theme-fresh",
-  // description: "一款简洁的 vitepress 博客 & 文档 主题。",
-  title: "友人Aの博客",
-  description: "おとといは兎をみたの，昨日は鹿，今日はあなた",
+  title: "友人A",
   themeConfig: {
     logo: "logo.jpg",
     outline: [2, 3],

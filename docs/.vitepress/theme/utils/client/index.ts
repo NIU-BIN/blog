@@ -1,7 +1,4 @@
 import { ref } from "vue";
-// import { spawn, spawnSync } from "node:child_process";
-// import process from "node:process";
-import glob from "fast-glob";
 
 export const useTypewriter = (string: string, time: number) => {
   const currentString = ref("");
@@ -21,6 +18,7 @@ export const useTypewriter = (string: string, time: number) => {
 };
 
 export const getFileBirthTime = (url: string) => {
+  // console.log("fs", fs);
   // const srcDir = process.argv.slice(2)?.[1] || ".";
   // console.log("srcDir: ", srcDir);
   // const files = import.meta.glob("./dir/*.js");
