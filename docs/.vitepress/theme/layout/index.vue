@@ -3,14 +3,19 @@
     <template #home-hero-before>
       <Home />
     </template>
-    <template #doc-before> doc-before </template>
+    <!-- <template #doc-before> doc-before </template> -->
     <!-- <template #nav-bar-content-before> nav-bar-content-before </template> -->
     <template #layout-bottom> footer </template>
+
+    <template #sidebar-nav-after>
+      <Sidebar />
+    </template>
   </Layout>
 </template>
 <script setup>
 import Theme from "vitepress/theme";
 import Home from "../page/Home/index.vue";
+import Sidebar from "../components/Sidebar/index.vue";
 
 const { Layout } = Theme;
 </script>

@@ -1,4 +1,16 @@
-import { ref } from "vue";
+import {
+  ref,
+  Component,
+  defineComponent,
+  computed,
+  provide,
+  inject,
+  InjectionKey,
+  Ref,
+  ComputedRef,
+  h,
+} from "vue";
+import { Theme, useData, useRoute, withBase } from "vitepress";
 
 export const useTypewriter = (string: string, time: number) => {
   const currentString = ref("");
@@ -17,24 +29,39 @@ export const useTypewriter = (string: string, time: number) => {
   return { currentString };
 };
 
-export const getFileBirthTime = (url: string) => {
-  // console.log("fs", fs);
-  // const srcDir = process.argv.slice(2)?.[1] || ".";
-  // console.log("srcDir: ", srcDir);
-  // const files = import.meta.glob("./dir/*.js");
-  // console.log("files: ", files);
-  // let date = new Date();
-  // try {
-  //   // 参考 vitepress 中的 getGitTimestamp 实现
-  //   const infoStr = spawnSync("git", ["log", "-1", '--pretty="%ci"', url])
-  //     .stdout?.toString()
-  //     .replace(/["']/g, "")
-  //     .trim();
-  //   if (infoStr) {
-  //     date = new Date(infoStr);
-  //   }
-  // } catch (error) {
-  //   return formatDate(date);
-  // }
-  // return formatDate(date);
+const resolveConfig = (config) => {
+  console.log("config: ", config);
+  return {
+    ...config,
+    // blog: {
+    //   ...config?.blog,
+    //   pagesData: config?.blog?.pagesData || []
+    // }
+  };
 };
+
+const configSymbol: InjectionKey<ComputedRef<any>> = Symbol("theme-config");
+
+export const withConfigProvider = (App: Component) => {
+  return defineComponent({
+    name: "ConfigProvider",
+    setup(_, { slots }) {
+      const { theme } = useData();
+      console.log("theme: ", theme);
+      const config = computed(() => resolveConfig(theme.value));
+
+      provide(configSymbol, config);
+      return () => h(App, null, slots);
+    },
+  });
+};
+
+export function useConfig() {
+  return {
+    config: inject(configSymbol)!.value,
+  };
+}
+
+export function useBlogConfig() {
+  return inject(configSymbol)!.value.blog!;
+}

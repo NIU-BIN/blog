@@ -22,6 +22,12 @@ export default defineConfig({
             new URL("./theme/components/Reset/index.vue", import.meta.url)
           ),
         },
+        {
+          find: /^.*\/VPSidebarItem\.vue$/,
+          replacement: fileURLToPath(
+            new URL("./theme/components/Reset/index.vue", import.meta.url)
+          ),
+        },
       ],
     },
   },
@@ -33,6 +39,7 @@ export default defineConfig({
     nav: [
       { text: "主页", link: "/" },
       { text: "Examples", link: "/markdown-examples" },
+      { text: "React", link: "/基础hook" },
     ],
 
     sidebar: [
@@ -41,6 +48,23 @@ export default defineConfig({
         items: [
           { text: "Markdown Examples", link: "/markdown-examples" },
           { text: "Runtime API Examples", link: "/api-examples" },
+        ],
+      },
+      {
+        text: "React",
+        items: [
+          {
+            text: "基础hook",
+            link: "/基础hook",
+          },
+          {
+            text: "性能优化相关hook",
+            link: "/性能优化相关hook",
+          },
+          {
+            text: "reducer",
+            link: "/reducer",
+          },
         ],
       },
     ],

@@ -14,7 +14,7 @@
         </div>
         <div class="cover_image">
           <img
-            src="https://cdn.pixabay.com/photo/2016/10/18/21/22/beach-1751455_640.jpg"
+            src="https://cdn.pixabay.com/photo/2014/04/14/20/11/pink-324175_640.jpg"
             alt=""
           />
         </div>
@@ -70,7 +70,9 @@ defineProps<IProps>();
     }
 
     .article_info {
+      width: 30vw;
       padding: 20px;
+      box-sizing: border-box;
     }
     .article_title {
       font-size: 1.25rem;
@@ -82,10 +84,12 @@ defineProps<IProps>();
     }
 
     .cover_image {
+      width: 20vw;
       height: 100%;
       clip-path: polygon(0 0, 100% 0, 100% 100%, 8% 100%);
     }
     .cover_image > img {
+      width: 100%;
       height: 100%;
       transition: all 0.4s;
     }

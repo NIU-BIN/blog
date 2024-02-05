@@ -6,11 +6,12 @@ import Layout from "./layout/index.vue";
 import type { Theme } from "vitepress";
 import DefaultTheme from "vitepress/theme";
 import "./styles/index.less";
+import { withConfigProvider } from "./utils/client";
 
 const MineTheme: Theme = {
   // ...DefaultTheme,
   extends: DefaultTheme,
-  Layout,
+  Layout: withConfigProvider(Layout),
   enhanceApp(ctx) {
     // { app, router, siteData }
     // ...
