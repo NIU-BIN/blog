@@ -16,6 +16,8 @@
       <ArticleList :list="articleList" />
       <div class="container_right">
         <AuthorCard :autherInfo="autherInfo" :logo="logo" />
+        <Concentration />
+        <FriendlyLink />
       </div>
     </div>
   </div>
@@ -24,6 +26,8 @@
 import Waves from "../../components/Waves/index.vue";
 import ArticleList from "./components/ArticleList/index.vue";
 import AuthorCard from "./components/AuthorCard/index.vue";
+import Concentration from "./components/Concentration/index.vue";
+import FriendlyLink from "./components/FriendlyLink/index.vue";
 import { useData } from "vitepress";
 import { useTypewriter } from "../../utils/client";
 import { ref } from "vue";

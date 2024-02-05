@@ -35,6 +35,11 @@ defineProps<IProps>();
     width: 6vw;
     height: 6vw;
     border-radius: 50%;
+    &:hover {
+      transform: rotate(666turn);
+      transition-duration: 59s;
+      transition-timing-function: cubic-bezier(0.34, 0, 0.84, 1);
+    }
   }
   .tag_list {
     margin-top: 40px;

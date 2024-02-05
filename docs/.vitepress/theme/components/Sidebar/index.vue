@@ -54,7 +54,7 @@ const getCurrentPageSiderList = () => {
       date: articleList.find((v) => v.text === item.title)?.date,
     };
   });
-  currentSiderList.sort((a, b) => +new Date(b.date) - +new Date(a.date));
+  currentSiderList?.sort((a, b) => +new Date(b.date) - +new Date(a.date));
 
   console.log(currentSiderList);
   sideList.value = currentSiderList;
