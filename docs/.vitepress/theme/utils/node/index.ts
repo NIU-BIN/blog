@@ -2,7 +2,7 @@
 import fs from "node:fs";
 import glob from "fast-glob";
 import { spawn, spawnSync } from "node:child_process";
-import { ArticleItem } from "../../types";
+import { ArticleItem, ThemeConfig } from "../../types";
 import { DefaultTheme } from "vitepress";
 
 export const clearMatterContent = (content: string) => {
@@ -63,7 +63,7 @@ export const formatDate = (d: any, fmt = "yyyy-MM-dd hh:mm:ss") => {
 };
 
 // 获取文章概述（取md中纯内容截取前100）
-export const getTextSummary = (text: string, count = 100) => {
+export const getTextSummary = (text: string, count = 120) => {
   return (
     clearMatterContent(text)
       .match(/^# ([\s\S]+)/m)?.[1]
@@ -80,7 +80,7 @@ export const getTextSummary = (text: string, count = 100) => {
       ?.slice(1)
       ?.join("\n")
       ?.replace(/>(.*)/, "")
-      ?.slice(0, count)
+      ?.slice(0, count) + "..."
   );
 };
 
@@ -133,6 +133,9 @@ export const getFilesInfo = () => {
     */
     const date = getFileBirthTime(file);
     const description = getTextSummary(fileContent) || "";
+    /* 
+      TODO: 封面计划在md的frontmatter中配置，暂定使用正则匹配
+    */
     const cover = "";
 
     const fileInfo: ArticleItem = {
@@ -153,14 +156,14 @@ export const getFilesInfo = () => {
   return filesList;
 };
 
-export const getThemeConfig = () => {
-  const themeConfig: DefaultTheme.Config & {
-    article: ArticleItem[];
-    author: string;
-  } = {
+type ThemeConfigType = DefaultTheme.Config & {
+  article: ArticleItem[];
+} & ThemeConfig;
+
+export const getThemeConfig = (config: ThemeConfig) => {
+  const themeConfig: ThemeConfigType = {
     article: getFilesInfo(),
-    author: "友人A",
+    ...config,
   };
-  // console.log("themeConfig: ", themeConfig);
   return themeConfig;
 };

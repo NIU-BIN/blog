@@ -13,6 +13,12 @@
 集成 giscus
 [giscus](https://giscus.app/zh-CN)
 
+使用集成组件[@giscus/vue](https://github.com/giscus/giscus-component)
+
+<!-- https://giscus.app/zh-CN -->
+
+[配置详情](https://vuepress-theme-hope.github.io/v2/comment/zh/config/giscus.html#lazyloading)
+
 ## 自定义页面
 
 将页面的 vue 文件注册为组件，然后通过 md 渲染，就达到了自定义页面的功能

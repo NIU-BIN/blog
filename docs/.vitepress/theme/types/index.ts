@@ -1,3 +1,5 @@
+import { Mapping, Repo } from "@giscus/vue";
+
 // 文章
 export interface ArticleItem {
   path: string;
@@ -21,4 +23,31 @@ type userTag = {
 export interface AutherInfo {
   name: string;
   tags: userTag[];
+}
+
+// 评论组件配置
+export interface CommentConfig {
+  repo: Repo;
+  repoId: string;
+  category: string;
+  categoryId: string;
+  inputPosition?: "top" | "bottom";
+  mapping?: Mapping;
+  lang?: string;
+  loading?: "lazy" | "eager";
+}
+
+// 友链
+export interface FriendItem {
+  avatar: string;
+  name: string;
+  desc: string;
+  link: string;
+}
+
+// 定制主题配置
+export interface ThemeConfig {
+  author?: string;
+  comment: CommentConfig;
+  friend: FriendItem[];
 }

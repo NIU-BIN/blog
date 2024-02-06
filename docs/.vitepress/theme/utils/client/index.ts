@@ -30,7 +30,7 @@ export const useTypewriter = (string: string, time: number) => {
 };
 
 const resolveConfig = (config) => {
-  console.log("config: ", config);
+  // console.log("config: ", config);
   return {
     ...config,
     // blog: {
@@ -47,7 +47,6 @@ export const withConfigProvider = (App: Component) => {
     name: "ConfigProvider",
     setup(_, { slots }) {
       const { theme } = useData();
-      console.log("theme: ", theme);
       const config = computed(() => resolveConfig(theme.value));
 
       provide(configSymbol, config);
@@ -57,9 +56,7 @@ export const withConfigProvider = (App: Component) => {
 };
 
 export function useConfig() {
-  return {
-    config: inject(configSymbol)!.value,
-  };
+  return inject(configSymbol)!.value;
 }
 
 export function useBlogConfig() {

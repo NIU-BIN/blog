@@ -2,10 +2,10 @@
   <div class="friendly_link">
     <div class="section_top">🤝 &nbsp; 友情链接</div>
     <ul class="friend_list">
-      <li class="friend_item" v-for="item in friend" :key="item.link">
+      <li class="friend_item" v-for="item in friends" :key="item.link">
         <img :src="item.avatar" alt="" class="avatar" />
         <div class="friend_info">
-          <div class="friend_name">{{ item.name }}</div>
+          <div class="friend_name" @click="linkTo(item)">{{ item.name }}</div>
           <div class="friend_desc">{{ item.desc }}</div>
         </div>
       </li>
@@ -13,21 +13,16 @@
   </div>
 </template>
 <script setup lang="ts">
-const friend = [
-  {
-    avatar:
-      "https://img.cdn.sugarat.top/mdImg/MTY3NDk5NTE2NzAzMA==674995167030",
-    name: "粥里有勺糖",
-    desc: "你的指尖,拥有改变世界的力量",
-    link: "https://sugarat.top/",
-  },
-  {
-    avatar: "https://vitepress.dev/vitepress-logo-large.webp",
-    name: "Vitepress",
-    desc: "Vite & Vue Powered Static Site Generator",
-    link: "https://vitepress.dev/zh/",
-  },
-];
+import { FriendItem } from "../../../../types";
+interface IProps {
+  friends: FriendItem[];
+}
+
+defineProps<IProps>();
+
+const linkTo = (item: FriendItem) => {
+  window.open(item.link);
+};
 </script>
 <style lang="less" scoped>
 .friendly_link {
@@ -50,16 +45,21 @@ const friend = [
 .friend_item {
   display: flex;
   gap: 20px;
-
-  flex-shrink: 0;
+  cursor: pointer;
+  &:hover {
+    .friend_name {
+      color: #5d67e8;
+      text-decoration: underline;
+    }
+  }
   .avatar {
     width: 3vw;
     height: 3vw;
     border-radius: 50%;
   }
   .friend_info {
-    flex-shrink: 0;
-    // flex: 1;
+    min-width: 0;
+    flex: 1;
     .friend_name {
       width: 100%;
       font-size: 14px;

@@ -1,11 +1,11 @@
 import { DefaultTheme, defineConfig } from "vitepress";
 import { fileURLToPath, URL } from "node:url";
-import { getThemeConfig } from "./theme/utils/node";
+import { themeConfig } from "./theme-config";
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   extends: {
-    themeConfig: getThemeConfig(),
+    themeConfig,
   },
   vite: {
     resolve: {

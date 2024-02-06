@@ -40,7 +40,7 @@ const sideList = ref([]);
 const siderbarList = theme.value.sidebar;
 const articleList = theme.value.article;
 
-console.log("siderbarList: ", siderbarList, articleList);
+// console.log("siderbarList: ", siderbarList, articleList);
 
 const getCurrentPageSiderList = () => {
   const currentCategory = page.value.frontmatter.category;

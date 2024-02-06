@@ -17,7 +17,7 @@
       <div class="container_right">
         <AuthorCard :autherInfo="autherInfo" :logo="logo" />
         <Concentration />
-        <FriendlyLink />
+        <FriendlyLink :friends="friendLink" />
       </div>
     </div>
   </div>
@@ -31,7 +31,7 @@ import FriendlyLink from "./components/FriendlyLink/index.vue";
 import { useData } from "vitepress";
 import { useTypewriter } from "../../utils/client";
 import { ref } from "vue";
-import type { ArticleItem, AutherInfo } from "../../types";
+import type { ArticleItem, AutherInfo, FriendItem } from "../../types";
 
 const { frontmatter, theme } = useData();
 // console.log("useData(): ", useData());
@@ -68,6 +68,9 @@ const autherInfo = ref<AutherInfo>({
     },
   ],
 });
+
+// 友链
+const friendLink = ref<FriendItem[]>(theme.value.friend);
 </script>
 <style lang="less" scoped>
 @keyframes blink {
@@ -83,6 +86,7 @@ const autherInfo = ref<AutherInfo>({
   position: relative;
   // background-image: url("../../styles/swiper_bg.jpg");
   height: 100vh;
+  background-size: 100% 100%;
   .swiper_mask {
     position: absolute;
     width: 100%;
@@ -133,6 +137,8 @@ const autherInfo = ref<AutherInfo>({
   gap: 36px;
   justify-content: center;
   .container_right {
+    position: sticky;
+    top: var(--vp-nav-height);
     width: 18vw;
   }
 }

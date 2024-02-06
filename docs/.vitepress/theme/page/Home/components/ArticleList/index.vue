@@ -7,9 +7,9 @@
             {{ article.title }}
           </div>
           <p class="article_desc">{{ article.description }}</p>
-          <div>
+          <div class="article_bottom">
             <span>{{ article.date }}</span>
-            <span>{{ article.tag?.[0] }}</span>
+            <!-- <span>{{ article.tag?.[0] || "react" }}</span> -->
           </div>
         </div>
         <div class="cover_image">
@@ -41,6 +41,7 @@ defineProps<IProps>();
   flex-direction: column;
   gap: 20px;
   .article_item {
+    position: relative;
     display: flex;
     width: 100%;
     height: 240px;
@@ -52,6 +53,10 @@ defineProps<IProps>();
       img {
         transform: scale(1.1);
       }
+      .article_title::after {
+        // display: block;
+        width: 100%;
+      }
     }
 
     &:nth-child(2n) {
@@ -61,6 +66,10 @@ defineProps<IProps>();
       }
       .article_info {
         justify-content: flex-start;
+      }
+      .article_bottom {
+        flex-direction: row-reverse;
+        right: 20px;
       }
       .more {
         left: auto;
@@ -75,12 +84,42 @@ defineProps<IProps>();
       box-sizing: border-box;
     }
     .article_title {
-      font-size: 1.25rem;
+      display: inline;
+      position: relative;
+      font-size: 1.35rem;
       font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .article_title:hover {
+      color: #6293f0;
+    }
+
+    .article_title::after {
+      position: absolute;
+      left: 0;
+      bottom: -6px;
+      content: "";
+      // width: 100%;
+      width: 0;
+      height: 1px;
+      border: none;
+      border-top: 1px dashed #a1a1a1;
+      transition: all 0.3s linear;
     }
 
     .article_desc {
+      margin-top: 20px;
       font-size: 0.875rem;
+    }
+
+    .article_bottom {
+      position: absolute;
+      width: 27vw;
+      display: flex;
+      justify-content: space-between;
+      bottom: 16px;
+      font-size: 14px;
     }
 
     .cover_image {
