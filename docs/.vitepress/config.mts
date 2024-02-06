@@ -38,6 +38,7 @@ export default defineConfig({
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: "主页", link: "/" },
+      { text: "归档", link: "/archive" },
       { text: "Examples", link: "/markdown-examples" },
       { text: "React", link: "/基础hook" },
     ],

@@ -1,49 +1,47 @@
 <template>
-  <div>
-    <PageTop title="归档" />
-    <div
-      class="archive_list my-10 mx-auto p-6 w-[1050px] rounded-2xl"
-      v-animate="['slideUpBigIn']"
-    >
-      <el-timeline>
-        <el-timeline-item
-          :timestamp="`${month.time}（${month.articleCount}篇文章）`"
-          placement="top"
-          v-for="month in monthList"
-          :key="month.id"
-        >
-          <template #dot>
-            <img
-              src="@/assets/image/avatar.png"
-              class="w-6 h-6 rounded-full"
-              alt=""
-            />
-          </template>
-          <ul
-            class="flex flex-col gap-2 text-sm mt-2 text-gray-600 dark:text-gray-400"
+  <Teleport to="body">
+    <div class="archive_page">
+      <div class="cover no_flex">
+        <div class="mask">
+          <div class="archive_text">归档</div>
+        </div>
+      </div>
+      <ContributeChart class="no_flex" />
+      <div class="archive_list no_flex">
+        <ElTimeline>
+          <ElTimelineItem
+            :timestamp="`${month.time}（${month.articleCount}篇文章）`"
+            placement="top"
+            v-for="month in monthList"
+            :key="month.id"
           >
-            <li
-              v-for="article in month.articleList"
-              class="px-2 py-1 flex items-center gap-2 justify-between hover:bg-slate-200 cursor-pointer rounded-md dark:hover:bg-gray-700"
-            >
-              <!-- <span>&#128196;</span>  -->
-              <div>
-                <span>&#128214;</span>
-                <span class="ml-2">{{ article.articleTitle }}</span>
-              </div>
-              <span class="text-gray-400">{{ article.updateTime }}</span>
-            </li>
-          </ul>
-        </el-timeline-item>
-      </el-timeline>
+            <template #dot>
+              <img :src="logo" class="avatar" alt="" />
+            </template>
+            <ul class="month_list">
+              <li v-for="article in month.articleList" class="article_item">
+                <div>
+                  <span>&#128214;</span>
+                  <span>{{ article.articleTitle }}</span>
+                </div>
+                <span>{{ article.updateTime }}</span>
+              </li>
+            </ul>
+          </ElTimelineItem>
+        </ElTimeline>
+      </div>
     </div>
-  </div>
+  </Teleport>
 </template>
 
 <script setup>
 import { ref } from "vue";
-import PageTop from "@/components/PageTop/index.vue";
+import { ElTimeline, ElTimelineItem } from "element-plus";
+import ContributeChart from "../../components/ContributeChart/index.vue";
+import { useConfig } from "../../utils/client";
 // import { ArticleItem } from "@/types";
+
+const { logo } = useConfig();
 
 const monthList = ref([
   {
@@ -170,11 +168,71 @@ const monthList = ref([
 </script>
 
 <style scoped lang="less">
+.archive_page {
+  padding-bottom: 10vh;
+  width: 100%;
+  height: calc(100vh - var(--vp-nav-height));
+  position: fixed;
+  top: var(--vp-nav-height);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-y: auto;
+  .cover {
+    width: 100%;
+    height: 35vh;
+    background-image: url("../../../../public/archive_cover.png");
+    background-position: center 80%;
+    background-size: 100% auto;
+    .mask {
+      overflow: hidden;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.35);
+    }
+    .archive_text {
+      margin: 12vh 0 0 16vw;
+      // text-align: center;
+      font-size: 2rem;
+      font-weight: bold;
+      color: #fff;
+      -webkit-box-reflect: below 3px
+        linear-gradient(transparent, rgba(0, 0, 0, 0.4));
+    }
+  }
+}
+
+.no_flex {
+  flex: none;
+}
 .archive_list {
+  width: 1000px;
   // box-shadow: 0 0 10px rgb(0 0 0 / 0.1);
-  visibility: hidden;
   animation-duration: 1s;
   transition: all 0.2s ease-in-out 0s;
+  .avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+  }
+  .month_list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    font-size: 14px;
+    margin-top: 20px;
+    .article_item {
+      display: flex;
+      padding: 2px 6px;
+      align-items: center;
+      justify-content: space-between;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .article_item:hover {
+      background-color: rgb(226, 232, 240);
+    }
+  }
 }
 :deep(.el-timeline-item__tail) {
   left: 10px;

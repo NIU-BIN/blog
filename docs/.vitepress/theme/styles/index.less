@@ -143,16 +143,24 @@ html.dark {
   );
 
   .VPNav {
-    // transition: none !important;
+    transition: none !important;
     // border: none !important;
     .divider,
     .divider-line {
       height: 0;
     }
-    // .has-local-nav {
-    //   background-color: #fff;
-    // }
+    .has-local-nav {
+      background-color: #fff;
+      border-bottom: 1px solid var(--vp-c-divider);
+    }
   }
+  .group + .group {
+    border: none;
+  }
+
+  // .wrapper {
+  //   transition: background-color 0.5s;
+  // }
 
   // 导航栏样式
   .VPNavBar.top {
