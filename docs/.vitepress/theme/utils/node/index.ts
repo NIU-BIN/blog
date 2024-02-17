@@ -4,6 +4,7 @@ import glob from "fast-glob";
 import { spawn, spawnSync } from "node:child_process";
 import { ArticleItem, ThemeConfig } from "../../types";
 import { DefaultTheme } from "vitepress";
+import dayjs from "dayjs";
 
 export const clearMatterContent = (content: string) => {
   let first___: unknown;
@@ -86,7 +87,9 @@ export const getTextSummary = (text: string, count = 120) => {
 
 // 获取文章发布时间
 export const getFileBirthTime = (url: string) => {
-  let date = new Date();
+  let date: Date | string = new Date();
+  let month = "";
+  let day = "";
 
   try {
     // 参考 vitepress 中的 getGitTimestamp 实现
@@ -96,12 +99,18 @@ export const getFileBirthTime = (url: string) => {
       .trim();
     if (infoStr) {
       date = new Date(infoStr);
+      month = dayjs(infoStr).format("YYYY-MM");
+      day = dayjs(infoStr).format("YYYY-MM-DD");
     }
   } catch (error) {
-    return formatDate(date);
+    date = formatDate(date);
   }
 
-  return formatDate(date);
+  return {
+    date: formatDate(date),
+    month,
+    day,
+  };
 };
 
 // 获取md文件中title
@@ -131,7 +140,7 @@ export const getFilesInfo = () => {
       原计划按照文件修改时间为准，但是为了避免文件误修改导致文件修改时间改变
       文章发布时间按照git的timestamp为准
     */
-    const date = getFileBirthTime(file);
+    const { date, month, day } = getFileBirthTime(file);
     const description = getTextSummary(fileContent) || "";
     /* 
       TODO: 封面计划在md的frontmatter中配置，暂定使用正则匹配
@@ -143,13 +152,19 @@ export const getFilesInfo = () => {
       title: fileTitle,
       description,
       date,
+      month,
+      day,
       cover,
     };
 
     return fileInfo;
   });
   // 固定页面的路径
-  const PAGES_PATH = [`${srcDir}/index`, `${srcDir}/about`];
+  const PAGES_PATH = [
+    `${srcDir}/index`,
+    `${srcDir}/about`,
+    `${srcDir}/archive`,
+  ];
   // 去掉固定页面，其余为文章
   const filesList = filesInfo.filter((item) => !PAGES_PATH.includes(item.path));
   // console.log("filesList", filesList);

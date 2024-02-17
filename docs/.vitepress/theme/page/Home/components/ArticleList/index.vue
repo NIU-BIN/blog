@@ -33,7 +33,7 @@ defineProps<IProps>();
 </script>
 <style lang="less" scoped>
 .article_list_box {
-  width: 50vw;
+  width: 960px;
 }
 .article_list {
   width: 100%;
@@ -79,14 +79,14 @@ defineProps<IProps>();
     }
 
     .article_info {
-      width: 30vw;
+      width: 600px;
       padding: 20px;
       box-sizing: border-box;
     }
     .article_title {
       display: inline;
       position: relative;
-      font-size: 1.35rem;
+      font-size: 23px;
       font-weight: bold;
       cursor: pointer;
       transition: all 0.3s;
@@ -110,12 +110,12 @@ defineProps<IProps>();
 
     .article_desc {
       margin-top: 20px;
-      font-size: 0.875rem;
+      font-size: 14px;
     }
 
     .article_bottom {
       position: absolute;
-      width: 27vw;
+      width: 468px;
       display: flex;
       justify-content: space-between;
       bottom: 16px;
@@ -123,13 +123,15 @@ defineProps<IProps>();
     }
 
     .cover_image {
-      width: 20vw;
+      // width: 20vw;
+      flex: 1;
       height: 100%;
       clip-path: polygon(0 0, 100% 0, 100% 100%, 8% 100%);
     }
     .cover_image > img {
-      width: 100%;
+      // width: 100%;
       height: 100%;
+      object-fit: cover;
       transition: all 0.4s;
     }
   }

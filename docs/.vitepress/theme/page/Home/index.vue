@@ -131,7 +131,6 @@ const friendLink = ref<FriendItem[]>(theme.value.friend);
 }
 
 .home_container {
-  // width: 1080px;
   margin-top: 60px;
   display: flex;
   gap: 36px;
@@ -139,7 +138,7 @@ const friendLink = ref<FriendItem[]>(theme.value.friend);
   .container_right {
     position: sticky;
     top: var(--vp-nav-height);
-    width: 18vw;
+    width: 350px;
   }
 }
 </style>

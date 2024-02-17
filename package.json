@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@giscus/vue": "^2.4.0",
+    "dayjs": "^1.11.10",
     "echarts": "^5.4.3",
     "element-plus": "^2.5.5",
     "less": "^4.2.0",

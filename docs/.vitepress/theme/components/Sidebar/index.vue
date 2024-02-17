@@ -1,7 +1,7 @@
 <template>
   <div class="blog_siderbar">
     <div class="sider_title" v-show="sideList && sideList.length">
-      📖 &nbsp; 相关文章
+      <span style="font-size: 18px">&#127809;</span> &nbsp; 相关文章
     </div>
     <ul class="sider_list">
       <li
@@ -31,11 +31,18 @@
 import { useData, useRoute, useRouter } from "vitepress";
 import { computed, ref, watch } from "vue";
 
+interface SiderbarItem {
+  text: string;
+  link: string;
+  sequence: number;
+  date: string;
+}
+
 const route = useRoute();
 const router = useRouter();
 const { theme, page } = useData();
 
-const sideList = ref([]);
+const sideList = ref<SiderbarItem[]>([]);
 
 const siderbarList = theme.value.sidebar;
 const articleList = theme.value.article;
