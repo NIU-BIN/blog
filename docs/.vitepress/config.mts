@@ -33,45 +33,61 @@ export default defineConfig({
   },
   title: "友人A",
   themeConfig: {
-    logo: "logo.jpg",
+    logo: "/logo.jpg",
     outline: [2, 3],
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: "主页", link: "/" },
       { text: "归档", link: "/archive" },
-      { text: "Examples", link: "/markdown-examples" },
-      { text: "React", link: "/基础hook" },
+      { text: "技术笔记", link: "/note" },
+      {
+        text: "大前端",
+        items: [
+          // {
+          //   text: "JavaScript",
+          //   link: "/front-end/JavaScript",
+          // },
+          // {
+          //   text: "CSS",
+          //   link: "/front-end/CSS",
+          // },
+          // {
+          //   text: "Vue",
+          //   link: "/front-end/Vue",
+          // },
+          {
+            text: "React",
+            link: "/front-end/React/基础hook",
+          },
+          // {
+          //   text: "Node",
+          //   link: "/front-end/Node",
+          // },
+        ],
+      },
+      { text: "关于", link: "/about" },
     ],
 
     sidebar: [
-      {
-        text: "Examples",
-        items: [
-          { text: "Markdown Examples", link: "/markdown-examples" },
-          { text: "Runtime API Examples", link: "/api-examples" },
-        ],
-      },
       {
         text: "React",
         items: [
           {
             text: "基础hook",
-            link: "/基础hook",
+            link: "/front-end/React/基础hook",
           },
           {
             text: "性能优化相关hook",
-            link: "/性能优化相关hook",
+            link: "/front-end/React/性能优化相关hook",
           },
           {
             text: "reducer",
-            link: "/reducer",
+            link: "/front-end/React/reducer",
           },
         ],
       },
     ],
 
-    socialLinks: [
-      { icon: "github", link: "https://github.com/vuejs/vitepress" },
-    ],
+    socialLinks: [{ icon: "github", link: "https://github.com/Niu-bin" }],
   },
 });

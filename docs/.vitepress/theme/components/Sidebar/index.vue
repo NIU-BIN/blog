@@ -10,7 +10,7 @@
         class="sider_list_item"
         :class="{
           article_active:
-            decodeURIComponent(route.path) === `/${item.text}.html`,
+            decodeURIComponent(route.path) === `${item.link}.html`,
         }"
         @click="linkTo(item)"
       >
@@ -47,8 +47,6 @@ const sideList = ref<SiderbarItem[]>([]);
 const siderbarList = theme.value.sidebar;
 const articleList = theme.value.article;
 
-// console.log("siderbarList: ", siderbarList, articleList);
-
 const getCurrentPageSiderList = () => {
   const currentCategory = page.value.frontmatter.category;
   const currentPageSiderList = siderbarList.find(
@@ -63,18 +61,17 @@ const getCurrentPageSiderList = () => {
   });
   currentSiderList?.sort((a, b) => +new Date(b.date) - +new Date(a.date));
 
-  console.log(currentSiderList);
+  // console.log(currentSiderList);
   sideList.value = currentSiderList;
 };
 
 const linkTo = (article) => {
-  router.go(article.text);
+  router.go(article.link);
 };
 
 watch(
   () => route.path,
   (newValue) => {
-    console.log("route.path", newValue);
     getCurrentPageSiderList();
   },
   {

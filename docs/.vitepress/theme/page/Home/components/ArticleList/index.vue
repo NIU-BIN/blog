@@ -3,7 +3,10 @@
     <ul class="article_list">
       <li
         class="article_item"
-        v-for="article in list.slice((page - 1) * pageSize, page * pageSize)"
+        v-for="article in list.slice(
+          (currentPage - 1) * pageSize,
+          currentPage * pageSize
+        )"
         :key="article.path"
       >
         <div class="article_info">
@@ -25,7 +28,7 @@
       <el-pagination
         background
         :page-size="pageSize"
-        :pager-count="page"
+        :page-count="currentPage"
         layout="prev, pager, next"
         :total="list.length"
         @current-change="handleCurrentChange"
@@ -43,7 +46,7 @@ interface IProps {
   list: ArticleItem[];
 }
 
-const page = ref(1);
+const currentPage = ref(1);
 const pageSize = ref(5);
 
 defineProps<IProps>();
@@ -52,11 +55,11 @@ const router = useRouter();
 
 // 点击查看文章
 const linkTo = (article: ArticleItem) => {
-  router.go(article.name);
+  router.go(article.path);
 };
 
 const handleCurrentChange = (val: number) => {
-  page.value = val;
+  currentPage.value = val;
 };
 </script>
 <style lang="less" scoped>

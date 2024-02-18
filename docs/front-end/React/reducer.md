@@ -1,5 +1,6 @@
 ---
 category: React
+cover: https://cdn.pixabay.com/photo/2024/02/08/21/44/foliage-8561873_640.jpg
 ---
 
 # reducer

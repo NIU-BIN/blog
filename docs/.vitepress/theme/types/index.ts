@@ -3,7 +3,6 @@ import { Mapping, Repo } from "@giscus/vue";
 // 文章
 export interface ArticleItem {
   path: string;
-  name: string;
   title: string;
   description: string;
   date: string;

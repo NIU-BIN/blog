@@ -115,8 +115,6 @@ export const getArticleInfo = (text: string, count = 120) => {
 // 获取文章发布时间
 export const getFileBirthTime = (url: string) => {
   let date: Date | string = new Date();
-  let month = "";
-  let day = "";
 
   try {
     // 参考 vitepress 中的 getGitTimestamp 实现
@@ -126,8 +124,6 @@ export const getFileBirthTime = (url: string) => {
       .trim();
     if (infoStr) {
       date = new Date(infoStr);
-      month = dayjs(infoStr).format("YYYY-MM");
-      day = dayjs(infoStr).format("YYYY-MM-DD");
     }
   } catch (error) {
     date = formatDate(date);
@@ -135,8 +131,8 @@ export const getFileBirthTime = (url: string) => {
 
   return {
     date: formatDate(date),
-    month,
-    day,
+    month: dayjs(date).format("YYYY-MM"),
+    day: dayjs(date).format("YYYY-MM-DD"),
   };
 };
 
@@ -160,7 +156,7 @@ export const getFilesInfo = () => {
   const files = glob.sync(`${srcDir}/**/*.md`, { ignore: ["node_modules"] });
   // console.log("files: ", files);
   const filesInfo: ArticleItem[] = files.map((file) => {
-    const path = file.replace(".md", "");
+    const path = file.replace(".md", "").replace("docs", "");
     const fileContent = fs.readFileSync(file, "utf-8");
     /* 
       TODO: 封面计划在md的frontmatter中配置，暂定使用正则匹配
@@ -172,11 +168,9 @@ export const getFilesInfo = () => {
     */
     const { date, month, day } = getFileBirthTime(file);
     // const description = getArticleInfo(fileContent) || "";
-    const fileName = NodePath.basename(file).replace(".md", "");
 
     const fileInfo: ArticleItem = {
       path,
-      name: fileName,
       title,
       description,
       date,
@@ -189,9 +183,9 @@ export const getFilesInfo = () => {
   });
   // 固定页面的路径
   const PAGES_PATH = [
-    `${srcDir}/index`, // 首页
-    `${srcDir}/about`, // 关于
-    `${srcDir}/archive`, // 归档
+    `/index`, // 首页
+    `/about`, // 关于
+    `/archive`, // 归档
   ];
   // 去掉固定页面，其余为文章
   const filesList = filesInfo.filter((item) => !PAGES_PATH.includes(item.path));

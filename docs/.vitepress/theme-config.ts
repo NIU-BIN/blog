@@ -11,6 +11,7 @@ export const themeConfig = getThemeConfig({
     categoryId: "DIC_kwDOLMBB5c4Cc-ci",
     inputPosition: "bottom",
   },
+  // 友链
   friend: [
     {
       avatar:

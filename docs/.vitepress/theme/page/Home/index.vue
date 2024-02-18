@@ -53,18 +53,19 @@ const autherInfo = ref<AutherInfo>({
   tags: [
     {
       id: "article",
-      name: "文章",
-      value: 26,
+      name: "博客文章",
+      value: articleList.value.length,
     },
+    // 使用归档中的数据进行筛选，减少遍历次数
     {
       id: "tag",
-      name: "标签",
-      value: 6,
+      name: "本月更新",
+      value: 12,
     },
     {
       id: "message",
-      name: "说说",
-      value: 56,
+      name: "本周更新",
+      value: 3,
     },
   ],
 });

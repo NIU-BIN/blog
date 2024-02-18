@@ -102,7 +102,7 @@ const getContributeList = () => {
 
 // 点击查看文章
 const linkTo = (article: ArticleItem) => {
-  router.go(article.name);
+  router.go(article.path);
 };
 
 getArchiveList();

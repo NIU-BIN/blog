@@ -1,12 +1,13 @@
 <template>
   <div class="author_card">
     <img class="avatar" :src="logo" alt="" />
+    <div class="auther">{{ autherInfo.name }}</div>
     <ul class="tag_list">
       <li v-for="tag in autherInfo.tags" :key="tag.id" class="tag_item">
-        <div>
+        <div class="tag_value">{{ tag.value }}</div>
+        <div class="tag_label">
           {{ tag.name }}
         </div>
-        <div class="font-bold">{{ tag.value }}</div>
       </li>
     </ul>
   </div>
@@ -41,13 +42,30 @@ defineProps<IProps>();
       transition-timing-function: cubic-bezier(0.34, 0, 0.84, 1);
     }
   }
+  .auther {
+    margin: 16px 0 10px;
+    font-size: 16px;
+  }
   .tag_list {
-    margin-top: 40px;
+    margin-top: 14px;
     display: flex;
     justify-content: center;
     gap: 2vw;
     .tag_item {
       text-align: center;
+    }
+    .tag_item:nth-child(2),
+    .tag_item:nth-child(3) {
+      .tag_value::before {
+        content: "+";
+      }
+    }
+    .tag_value {
+      font-size: 18px;
+    }
+    .tag_label {
+      font-size: 13px;
+      color: #858585;
     }
   }
 }
