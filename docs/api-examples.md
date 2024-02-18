@@ -1,5 +1,6 @@
 ---
 outline: deep
+cover: https://cdn.pixabay.com/photo/2024/02/08/21/44/foliage-8561873_640.jpg
 ---
 
 # Runtime API Examples
@@ -18,12 +19,15 @@ const { theme, page, frontmatter } = useData()
 ## Results
 
 ### Theme Data
+
 <pre>{{ theme }}</pre>
 
 ### Page Data
+
 <pre>{{ page }}</pre>
 
 ### Page Frontmatter
+
 <pre>{{ frontmatter }}</pre>
 ```
 
@@ -36,12 +40,15 @@ const { site, theme, page, frontmatter } = useData()
 ## Results
 
 ### Theme Data
+
 <pre>{{ theme }}</pre>
 
 ### Page Data
+
 <pre>{{ page }}</pre>
 
 ### Page Frontmatter
+
 <pre>{{ frontmatter }}</pre>
 
 ## More

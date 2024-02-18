@@ -1,9 +1,13 @@
 <template>
   <div class="article_list_box">
     <ul class="article_list">
-      <li class="article_item" v-for="article in list" :key="article.path">
+      <li
+        class="article_item"
+        v-for="article in list.slice((page - 1) * pageSize, page * pageSize)"
+        :key="article.path"
+      >
         <div class="article_info">
-          <div class="article_title">
+          <div class="article_title" @click="linkTo(article)">
             {{ article.title }}
           </div>
           <p class="article_desc">{{ article.description }}</p>
@@ -13,27 +17,58 @@
           </div>
         </div>
         <div class="cover_image">
-          <img
-            src="https://cdn.pixabay.com/photo/2014/04/14/20/11/pink-324175_640.jpg"
-            alt=""
-          />
+          <img :src="article.cover" alt="" />
         </div>
       </li>
     </ul>
+    <div class="pagination">
+      <el-pagination
+        background
+        :page-size="pageSize"
+        :pager-count="page"
+        layout="prev, pager, next"
+        :total="list.length"
+        @current-change="handleCurrentChange"
+      />
+    </div>
   </div>
 </template>
 <script setup lang="ts">
+import { ElPagination } from "element-plus";
+import { useRouter } from "vitepress";
 import type { ArticleItem } from "../../../../types";
+import { ref } from "vue";
 
 interface IProps {
   list: ArticleItem[];
 }
 
+const page = ref(1);
+const pageSize = ref(5);
+
 defineProps<IProps>();
+
+const router = useRouter();
+
+// 点击查看文章
+const linkTo = (article: ArticleItem) => {
+  router.go(article.name);
+};
+
+const handleCurrentChange = (val: number) => {
+  page.value = val;
+};
 </script>
 <style lang="less" scoped>
 .article_list_box {
   width: 960px;
+  .pagination {
+    margin-top: 40px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }
 .article_list {
   width: 100%;
@@ -123,15 +158,13 @@ defineProps<IProps>();
     }
 
     .cover_image {
-      // width: 20vw;
       flex: 1;
       height: 100%;
       clip-path: polygon(0 0, 100% 0, 100% 100%, 8% 100%);
     }
     .cover_image > img {
-      // width: 100%;
+      width: 100%;
       height: 100%;
-      object-fit: cover;
       transition: all 0.4s;
     }
   }

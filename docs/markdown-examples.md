@@ -1,3 +1,7 @@
+---
+cover: https://cdn.pixabay.com/photo/2017/05/09/03/46/alberta-2297204_640.jpg
+---
+
 # Markdown Extension Examples
 
 This page demonstrates some of the built-in markdown extensions provided by VitePress.

@@ -6,7 +6,7 @@
           <div class="archive_text">归档</div>
         </div>
       </div>
-      <ContributeChart class="no_flex" />
+      <ContributeChart class="no_flex" :data="contributeList" />
       <div class="archive_list no_flex" v-if="archiveList.length">
         <ElTimeline>
           <ElTimelineItem
@@ -22,6 +22,7 @@
               <li
                 v-for="article in month_item.articleList"
                 class="article_item"
+                @click="linkTo(article)"
               >
                 <div>
                   <span>&#128214;</span>
@@ -44,6 +45,7 @@ import ContributeChart from "../../components/ContributeChart/index.vue";
 import { useConfig } from "../../utils/client";
 import dayjs from "dayjs";
 import type { ArticleItem } from "../../types";
+import { useRouter } from "vitepress";
 
 interface archiveItem {
   month: string;
@@ -54,42 +56,57 @@ interface archiveItem {
 
 const { logo, article } = useConfig();
 
+const router = useRouter();
+
 const archiveList = ref<archiveItem[]>([]);
 const contributeObject = ref({});
+const contributeList = ref<[string, number][]>([]);
 
 /* 
   只获取最近一年的月份，进行匹配，
 */
-for (let i = 0; i < 12; i++) {
-  const currentMonth = dayjs().subtract(i, "month").format("YYYY-MM");
-  // console.log("currentMonth: ", currentMonth);
-  const currentMonthList = article.filter(
-    (v: ArticleItem) => v.month === currentMonth
-  );
-  // console.log("currentMonthList: ", currentMonthList);
-  if (currentMonthList.length) {
-    archiveList.value.push({
-      month: currentMonth,
-      articleList: currentMonthList,
-      time: dayjs(currentMonth).format("YYYY年MM月"),
-      articleCount: currentMonthList.length,
-    });
+const getArchiveList = () => {
+  for (let i = 0; i < 12; i++) {
+    const currentMonth = dayjs().subtract(i, "month").format("YYYY-MM");
+    const currentMonthList = article.filter(
+      (v: ArticleItem) => v.month === currentMonth
+    );
+    if (currentMonthList.length) {
+      archiveList.value.push({
+        month: currentMonth,
+        articleList: currentMonthList,
+        time: dayjs(currentMonth).format("YYYY年MM月"),
+        articleCount: currentMonthList.length,
+      });
+    }
   }
-}
+};
 
-// console.log("archiveList: ", archiveList.value);
+// 获取贡献数据
+const getContributeList = () => {
+  article.forEach((item: ArticleItem) => {
+    const date = item.date.substring(0, 10);
+    if (contributeObject.value[date]) {
+      contributeObject.value[date]++;
+    } else {
+      contributeObject.value[date] = 1;
+    }
+  });
 
-article.forEach((item: ArticleItem) => {
-  const date = item.date.substring(0, 10);
-  if (contributeObject.value[date]) {
-    contributeObject.value[date]++;
-  } else {
-    contributeObject.value[date] = 1;
-  }
-});
-console.log("contributeObject: ", contributeObject.value);
+  const contributeDays = Object.keys(contributeObject.value);
 
-const contributeList = Object.keys(contributeObject.value);
+  contributeList.value = contributeDays.map((item: string) => {
+    return [item, contributeObject.value[item]];
+  });
+};
+
+// 点击查看文章
+const linkTo = (article: ArticleItem) => {
+  router.go(article.name);
+};
+
+getArchiveList();
+getContributeList();
 </script>
 
 <style scoped lang="less">
@@ -155,9 +172,10 @@ const contributeList = Object.keys(contributeObject.value);
       justify-content: space-between;
       border-radius: 4px;
       cursor: pointer;
+      transition: all 0.3s;
     }
     .article_item:hover {
-      background-color: rgb(226, 232, 240);
+      background-color: rgb(234, 240, 248);
     }
   }
 }

@@ -1,5 +1,6 @@
 // import process from "node:process";
 import fs from "node:fs";
+import NodePath from "node:path";
 import glob from "fast-glob";
 import { spawn, spawnSync } from "node:child_process";
 import { ArticleItem, ThemeConfig } from "../../types";
@@ -25,12 +26,11 @@ export const clearMatterContent = (content: string) => {
     pre.push(line);
     return pre;
   }, []);
-  return (
-    lines
-      // 剔除---之间的内容
-      .slice((second___ as number) || 0)
-      .join("\n")
-  );
+
+  return {
+    frontmatterContent: lines.slice(0, (second___ as number) || 0),
+    articleContent: lines.slice((second___ as number) || 0).join("\n"),
+  };
 };
 
 export const formatDate = (d: any, fmt = "yyyy-MM-dd hh:mm:ss") => {
@@ -63,10 +63,23 @@ export const formatDate = (d: any, fmt = "yyyy-MM-dd hh:mm:ss") => {
   return fmt;
 };
 
-// 获取文章概述（取md中纯内容截取前100）
-export const getTextSummary = (text: string, count = 120) => {
-  return (
-    clearMatterContent(text)
+// 获取文章信息
+export const getArticleInfo = (text: string, count = 120) => {
+  const { articleContent, frontmatterContent } = clearMatterContent(text);
+
+  // 获取文章封面  TODO: 默认封面文章封面进行配置
+  const cover =
+    frontmatterContent
+      .find((str) => {
+        return str.startsWith("cover:");
+      })
+      ?.slice(6)
+      .trim() ||
+    "https://cdn.pixabay.com/photo/2014/04/14/20/11/pink-324175_640.jpg";
+
+  // 取md中纯内容截取前100
+  const description =
+    articleContent
       .match(/^# ([\s\S]+)/m)?.[1]
       // 除去标题
       ?.replace(/#/g, "")
@@ -81,8 +94,22 @@ export const getTextSummary = (text: string, count = 120) => {
       ?.slice(1)
       ?.join("\n")
       ?.replace(/>(.*)/, "")
-      ?.slice(0, count) + "..."
-  );
+      ?.slice(0, count) + "..." || "";
+
+  const title =
+    articleContent
+      .split("\n")
+      ?.find((str) => {
+        return str.startsWith("# ");
+      })
+      ?.slice(2)
+      .replace(/^\s+|\s+$/g, "") || "";
+
+  return {
+    title,
+    description,
+    cover,
+  };
 };
 
 // 获取文章发布时间
@@ -114,7 +141,7 @@ export const getFileBirthTime = (url: string) => {
 };
 
 // 获取md文件中title
-export const getArticleTitle = (content: string) => {
+/* export const getArticleTitle = (content: string) => {
   const title =
     clearMatterContent(content)
       .split("\n")
@@ -124,7 +151,7 @@ export const getArticleTitle = (content: string) => {
       ?.slice(2)
       .replace(/^\s+|\s+$/g, "") || "";
   return title;
-};
+}; */
 
 // 获取所有md文件信息
 export const getFilesInfo = () => {
@@ -135,21 +162,22 @@ export const getFilesInfo = () => {
   const filesInfo: ArticleItem[] = files.map((file) => {
     const path = file.replace(".md", "");
     const fileContent = fs.readFileSync(file, "utf-8");
-    const fileTitle = getArticleTitle(fileContent);
+    /* 
+      TODO: 封面计划在md的frontmatter中配置，暂定使用正则匹配
+    */
+    const { title, description, cover } = getArticleInfo(fileContent);
     /* 
       原计划按照文件修改时间为准，但是为了避免文件误修改导致文件修改时间改变
       文章发布时间按照git的timestamp为准
     */
     const { date, month, day } = getFileBirthTime(file);
-    const description = getTextSummary(fileContent) || "";
-    /* 
-      TODO: 封面计划在md的frontmatter中配置，暂定使用正则匹配
-    */
-    const cover = "";
+    // const description = getArticleInfo(fileContent) || "";
+    const fileName = NodePath.basename(file).replace(".md", "");
 
     const fileInfo: ArticleItem = {
       path,
-      title: fileTitle,
+      name: fileName,
+      title,
       description,
       date,
       month,
@@ -161,13 +189,12 @@ export const getFilesInfo = () => {
   });
   // 固定页面的路径
   const PAGES_PATH = [
-    `${srcDir}/index`,
-    `${srcDir}/about`,
-    `${srcDir}/archive`,
+    `${srcDir}/index`, // 首页
+    `${srcDir}/about`, // 关于
+    `${srcDir}/archive`, // 归档
   ];
   // 去掉固定页面，其余为文章
   const filesList = filesInfo.filter((item) => !PAGES_PATH.includes(item.path));
-  // console.log("filesList", filesList);
   return filesList;
 };
 
