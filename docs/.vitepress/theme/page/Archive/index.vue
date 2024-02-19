@@ -6,7 +6,13 @@
           <div class="archive_text">归档</div>
         </div>
       </div>
-      <ContributeChart class="no_flex" :data="contributeList" />
+      <ClientOnly>
+        <ContributeChart
+          class="no_flex"
+          :isDark="isDark"
+          :data="contributeList"
+        />
+      </ClientOnly>
       <div class="archive_list no_flex" v-if="archiveList.length">
         <ElTimeline>
           <ElTimelineItem
@@ -45,7 +51,7 @@ import ContributeChart from "../../components/ContributeChart/index.vue";
 import { useConfig } from "../../utils/client";
 import dayjs from "dayjs";
 import type { ArticleItem } from "../../types";
-import { useRouter } from "vitepress";
+import { useData, useRouter } from "vitepress";
 
 interface archiveItem {
   month: string;
@@ -57,6 +63,7 @@ interface archiveItem {
 const { logo, article } = useConfig();
 
 const router = useRouter();
+const { isDark } = useData();
 
 const archiveList = ref<archiveItem[]>([]);
 const contributeObject = ref({});
@@ -98,6 +105,7 @@ const getContributeList = () => {
   contributeList.value = contributeDays.map((item: string) => {
     return [item, contributeObject.value[item]];
   });
+  // console.log("contributeList.value: ", contributeList.value);
 };
 
 // 点击查看文章
@@ -124,8 +132,8 @@ getContributeList();
   .cover {
     width: 100%;
     height: 40vh;
-    // background-image: url("../../../../public/archive_cover.png");
-    background-image: url("../../../../public/2.jpg");
+    background-image: url("../../../../public/archive_cover.jpg");
+    // background-image: url("../../../../public/2.jpg");
     // background-position: left 80%;
     background-size: 100% auto;
     .mask {
@@ -151,7 +159,8 @@ getContributeList();
 }
 .archive_list {
   width: 1000px;
-  box-shadow: 0 0 10px rgb(0 0 0 / 0.1);
+  // box-shadow: 0 0 10px rgb(0 0 0 / 0.1);
+  box-shadow: 0 0 16px var(--shadow);
   padding: 20px 30px;
   border-radius: 10px;
   .avatar {
@@ -194,6 +203,19 @@ getContributeList();
     -webkit-background-clip: text;
     background-clip: text;
     background-image: linear-gradient(to right, #24c6dc, #514a9d);
+  }
+}
+
+// dark
+
+.dark {
+  .archive_list {
+    background-color: #27272a;
+    // box-shadow: 0 0 14px #303030;
+    box-shadow: 0 0 0;
+  }
+  .article_item:hover {
+    background-color: rgb(52, 54, 56) !important;
   }
 }
 </style>

@@ -11,6 +11,7 @@ import { useConfig } from "../../utils/client";
 
 const props = defineProps<{
   data: [string, number][];
+  isDark: boolean;
 }>();
 
 const { article } = useConfig();
@@ -40,30 +41,33 @@ const option = {
       color: "#ebedf0",
       borderWidth: 5,
       borderColor: "#fff",
+      shadowBlur: 0,
     },
     cellSize: [20, 20],
     range: [beforeOnYear, today],
     splitLine: true,
     dayLabel: {
       firstDay: 7,
-      // nameMap: "ZH",
+      nameMap: "ZH",
+      color: "#888",
     },
-    // monthLabel: {
-    //   nameMap: [
-    //     "一月",
-    //     "二月",
-    //     "三月",
-    //     "四月",
-    //     "五月",
-    //     "六月",
-    //     "七月",
-    //     "八月",
-    //     "九月",
-    //     "十月",
-    //     "十一月",
-    //     "十二月",
-    //   ],
-    // },
+    monthLabel: {
+      // nameMap: [
+      //   "一月",
+      //   "二月",
+      //   "三月",
+      //   "四月",
+      //   "五月",
+      //   "六月",
+      //   "七月",
+      //   "八月",
+      //   "九月",
+      //   "十月",
+      //   "十一月",
+      //   "十二月",
+      // ],
+      color: "#888",
+    },
     yearLabel: {
       show: true,
       position: "right",
@@ -75,14 +79,14 @@ const option = {
   series: {
     type: "heatmap",
     coordinateSystem: "calendar",
-    itemStyle: {
-      color: "#ebedf0",
-    },
     data: [],
   },
 };
 
 const renderChart = (data) => {
+  option.calendar.itemStyle.borderColor = props.isDark ? "#000" : "#fff";
+  option.calendar.itemStyle.color = props.isDark ? "#787878" : "#ebedf0";
+  if (myChart.value) echarts.dispose(myChart.value);
   myChart.value = echarts.init(chart.value);
   option.series.data = data;
   myChart.value.setOption(option);
@@ -97,6 +101,13 @@ watch(
     immediate: true,
   }
 );
+
+watch(
+  () => props.isDark,
+  (newValue) => {
+    renderChart(props.data);
+  }
+);
 </script>
 <style lang="less" scoped>
 .contribute_chart {
@@ -106,6 +117,8 @@ watch(
     margin: auto;
     width: 100%;
     height: 100%;
+    // width: 100vw;
+    // height: 260px;
   }
 }
 </style>

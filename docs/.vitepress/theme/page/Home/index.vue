@@ -34,7 +34,7 @@ import { ref } from "vue";
 import type { ArticleItem, AutherInfo, FriendItem } from "../../types";
 
 const { frontmatter, theme } = useData();
-// console.log("useData(): ", useData());
+console.log("useData(): ", useData());
 
 const title = frontmatter.value.blog?.name;
 const { currentString } = useTypewriter(

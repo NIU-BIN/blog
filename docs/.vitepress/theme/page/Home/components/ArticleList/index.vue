@@ -84,7 +84,7 @@ const handleCurrentChange = (val: number) => {
     width: 100%;
     height: 240px;
     border-radius: 10px;
-    box-shadow: 0 0 16px var(--shadow);
+    box-shadow: 0 0 20px var(--shadow);
     overflow: hidden;
 
     &:hover {
@@ -172,4 +172,11 @@ const handleCurrentChange = (val: number) => {
     }
   }
 }
+
+// dark
+// .dark {
+//   .article_item {
+//     background-color: #27272a !important;
+//   }
+// }
 </style>
