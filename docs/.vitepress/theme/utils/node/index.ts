@@ -77,6 +77,17 @@ export const getArticleInfo = (text: string, count = 120) => {
       .trim() ||
     "https://cdn.pixabay.com/photo/2014/04/14/20/11/pink-324175_640.jpg";
 
+  // 获取文章置顶序号
+  const sticky =
+    Number(
+      frontmatterContent
+        .find((str) => {
+          return str.startsWith("sticky:");
+        })
+        ?.slice(7)
+        .trim()
+    ) || undefined;
+
   // 取md中纯内容截取前100
   const description =
     articleContent
@@ -109,6 +120,7 @@ export const getArticleInfo = (text: string, count = 120) => {
     title,
     description,
     cover,
+    sticky,
   };
 };
 
@@ -161,7 +173,7 @@ export const getFilesInfo = () => {
     /* 
       TODO: 封面计划在md的frontmatter中配置，暂定使用正则匹配
     */
-    const { title, description, cover } = getArticleInfo(fileContent);
+    const { title, description, cover, sticky } = getArticleInfo(fileContent);
     /* 
       原计划按照文件修改时间为准，但是为了避免文件误修改导致文件修改时间改变
       文章发布时间按照git的timestamp为准
@@ -177,6 +189,7 @@ export const getFilesInfo = () => {
       month,
       day,
       cover,
+      sticky,
     };
 
     return fileInfo;

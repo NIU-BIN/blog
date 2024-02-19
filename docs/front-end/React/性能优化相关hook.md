@@ -1,6 +1,7 @@
 ---
 category: React
 cover: https://cdn.pixabay.com/photo/2017/05/09/03/46/alberta-2297204_640.jpg
+sticky: 2
 ---
 
 # 性能优化相关 hook

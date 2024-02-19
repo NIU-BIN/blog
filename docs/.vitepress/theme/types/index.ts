@@ -11,7 +11,7 @@ export interface ArticleItem {
   cover?: string;
   tag?: string[];
   author?: string;
-  top?: number;
+  sticky?: number;
 }
 
 // 用户标签

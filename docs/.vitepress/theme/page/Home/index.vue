@@ -16,7 +16,7 @@
       <ArticleList :list="articleList" />
       <div class="container_right">
         <AuthorCard :autherInfo="autherInfo" :logo="logo" />
-        <Concentration />
+        <Concentration :list="stickyArticleList" />
         <FriendlyLink :friends="friendLink" />
       </div>
     </div>
@@ -32,9 +32,10 @@ import { useData } from "vitepress";
 import { useTypewriter } from "../../utils/client";
 import { ref } from "vue";
 import type { ArticleItem, AutherInfo, FriendItem } from "../../types";
+import dayjs from "dayjs";
 
 const { frontmatter, theme } = useData();
-console.log("useData(): ", useData());
+// console.log("useData(): ", useData());
 
 const title = frontmatter.value.blog?.name;
 const { currentString } = useTypewriter(
@@ -45,7 +46,33 @@ const logo = frontmatter.value.blog?.logo;
 const bgImage = frontmatter.value.blog?.bg;
 
 const articleList = ref<ArticleItem[]>(theme.value.article);
+const stickyArticleList = ref<ArticleItem[]>([]);
+
 console.log("articleList: ", articleList.value);
+
+// 一个月前的时间戳
+const lastMonthTime = dayjs().subtract(30, "day").unix();
+// 一周前的时间戳
+const lastWeekTime = dayjs().subtract(7, "day").unix();
+
+let withinMonthNumber = 0;
+let withinWeekNumber = 0;
+
+articleList.value.forEach((item) => {
+  const currentItemTime = dayjs(item.date).unix();
+  if (currentItemTime > lastMonthTime) withinMonthNumber++;
+  if (currentItemTime > lastWeekTime) withinWeekNumber++;
+});
+
+// 获取置顶文章
+const getStickyArticleList = () => {
+  const list = articleList.value
+    .filter((item) => item.sticky)
+    .sort((a, b) => a.sticky! - b.sticky!);
+  stickyArticleList.value = list;
+};
+
+getStickyArticleList();
 
 // 作者信息
 const autherInfo = ref<AutherInfo>({
@@ -56,16 +83,15 @@ const autherInfo = ref<AutherInfo>({
       name: "博客文章",
       value: articleList.value.length,
     },
-    // 使用归档中的数据进行筛选，减少遍历次数
     {
       id: "tag",
       name: "本月更新",
-      value: 12,
+      value: withinMonthNumber,
     },
     {
       id: "message",
       name: "本周更新",
-      value: 3,
+      value: withinWeekNumber,
     },
   ],
 });

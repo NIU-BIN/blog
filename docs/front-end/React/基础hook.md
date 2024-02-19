@@ -1,6 +1,7 @@
 ---
 category: React
 cover: https://cdn.pixabay.com/photo/2014/04/14/20/11/pink-324175_640.jpg
+sticky: 1
 ---
 
 # 基础 hook

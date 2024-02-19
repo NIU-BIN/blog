@@ -1,7 +1,6 @@
 import { DefaultTheme, defineConfig } from "vitepress";
 import { fileURLToPath, URL } from "node:url";
 import { themeConfig } from "./theme-config";
-
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   extends: {
@@ -67,7 +66,6 @@ export default defineConfig({
       },
       { text: "关于", link: "/about" },
     ],
-
     sidebar: [
       {
         text: "React",
@@ -87,7 +85,9 @@ export default defineConfig({
         ],
       },
     ],
-
     socialLinks: [{ icon: "github", link: "https://github.com/Niu-bin" }],
+    // search: {
+    //   provider: "local",
+    // },
   },
 });

@@ -1,16 +1,16 @@
 <template>
-  <div class="concentration">
+  <div class="concentration" v-if="list.length">
     <div class="section_top">✨ &nbsp; 精选文章</div>
     <ul class="concentration_list">
       <li
         class="concentration_list_item"
         v-for="item in list"
-        :key="item.sequence"
+        :key="item.sticky"
       >
-        <span class="sequence">{{ item.sequence }}</span>
+        <span class="sequence">{{ item.sticky }}</span>
         <div>
           <div class="article_name">
-            {{ item.text }}
+            {{ item.title }}
           </div>
           <div class="article_date">
             {{ item.date }}
@@ -21,43 +21,13 @@
   </div>
 </template>
 <script setup lang="ts">
-const list = [
-  {
-    sequence: "1",
-    text: "【免费】Node.js 入门教程",
-    date: "2023-12-17",
-  },
-  {
-    sequence: "2",
-    text: "浏览器专题系列文章",
-    date: "2023-12-23",
-  },
-  {
-    sequence: "3",
-    text: "2023年度总结",
-    date: "2023-12-17",
-  },
-  {
-    sequence: "4",
-    text: "如何编写一份好的互联网校招简历",
-    date: "2023-12-17",
-  },
-  {
-    sequence: "5",
-    text: "浏览器专题系列文章",
-    date: "2023-12-23",
-  },
-  {
-    sequence: "6",
-    text: "2023年度总结",
-    date: "2023-12-17",
-  },
-  {
-    sequence: "7",
-    text: "如何编写一份好的互联网校招简历",
-    date: "2023-12-17",
-  },
-];
+import type { ArticleItem } from "../../../../types";
+
+interface IProps {
+  list: ArticleItem[];
+}
+
+defineProps<IProps>();
 </script>
 <style lang="less" scoped>
 .concentration {
