@@ -30,7 +30,7 @@ const currentYear = new Date().getFullYear();
   gap: 0.5rem;
   height: 90px;
   background-color: var(--vp-c-bg);
-  border: 1px solid #f2f2f2;
+  border-top: 1px solid #f2f2f2;
   .author {
     font-size: 14px;
     color: #a8a8a8;
@@ -41,6 +41,13 @@ const currentYear = new Date().getFullYear();
   .badge {
     display: flex;
     gap: 1rem;
+  }
+}
+
+// dark
+.dark {
+  .page_footer {
+    border-top: none;
   }
 }
 </style>

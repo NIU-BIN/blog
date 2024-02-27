@@ -15,6 +15,7 @@
           </div>
           <p class="article_desc">{{ article.description }}</p>
           <div class="article_bottom">
+            <span>{{ author }}</span>
             <span>{{ article.date }}</span>
             <!-- <span>{{ article.tag?.[0] || "react" }}</span> -->
           </div>
@@ -44,6 +45,7 @@ import { ref } from "vue";
 
 interface IProps {
   list: ArticleItem[];
+  author: string;
 }
 
 const currentPage = ref(1);
@@ -106,7 +108,8 @@ const handleCurrentChange = (val: number) => {
         justify-content: flex-start;
       }
       .article_bottom {
-        flex-direction: row-reverse;
+        // flex-direction: row-reverse;
+        justify-content: end;
         right: 20px;
       }
       .more {
@@ -149,15 +152,25 @@ const handleCurrentChange = (val: number) => {
     .article_desc {
       margin-top: 20px;
       font-size: 14px;
+      color: #6b7280;
     }
 
     .article_bottom {
       position: absolute;
       width: 468px;
       display: flex;
-      justify-content: space-between;
+      // justify-content: space-between;
       bottom: 16px;
       font-size: 14px;
+      color: #374151;
+      span:nth-child(1)::after {
+        content: "";
+        display: inline-block;
+        width: 1px;
+        height: 8px;
+        margin: 0 10px;
+        background-color: #4e5969;
+      }
     }
 
     .cover_image {
@@ -174,9 +187,9 @@ const handleCurrentChange = (val: number) => {
 }
 
 // dark
-// .dark {
-//   .article_item {
-//     background-color: #27272a !important;
-//   }
-// }
+.dark {
+  .article_bottom {
+    color: #d1d5db !important;
+  }
+}
 </style>

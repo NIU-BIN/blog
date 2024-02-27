@@ -13,7 +13,7 @@
     </div>
     <Waves />
     <div class="home_container">
-      <ArticleList :list="articleList" />
+      <ArticleList :list="articleList" :author="theme.author" />
       <div class="container_right">
         <AuthorCard :autherInfo="autherInfo" :logo="logo" />
         <Concentration :list="stickyArticleList" />

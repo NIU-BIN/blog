@@ -38,6 +38,8 @@ https://cn.vitejs.dev/guide/troubleshooting
 
 ## 文章封面
 
+使用正则获取 “--- ---” 之间的 cover
+
 ## 全局搜索
 
 1. 使用 pagefind
@@ -82,3 +84,5 @@ export default defineConfig({
 2. 使用 algolia
 
 https://github.com/mqyqingfeng/Blog/issues/267
+
+## 图片预览功能

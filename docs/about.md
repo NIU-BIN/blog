@@ -24,11 +24,11 @@
 
 ## 关于该网站
 
-该个人博客由 vitepress 改写，自定义主题，使用[Vue3](https://cn.vuejs.org/)、[Typescript](https://www.tslang.cn/)开发，个别组件使用[Element Plus](https://element-plus.gitee.io/zh-CN/)
+该个人博客由 vitepress 改写，自定义主题，使用[Vue3](https://cn.vuejs.org/)、[TypeScript](https://www.tslang.cn/)开发，个别组件使用[Element Plus](https://element-plus.gitee.io/zh-CN/)
 
 ### 💥 灵感来源
 
-起初，使用 Vue3、Typescript、Pina 实现前端的个人博客，后端使用 Nest.js、MySQL、TypeORM、Redis 实现，以及完成文章发布运营平台，实现后发现维护以及需要安全防护的成本较高，某次偶然发现 [粥里有勺糖](https://sugarat.top/) 个人博客，使用 vitepress 搭建，自定义主题，维护成本很低，无需后端即可搭建个人博客，实现评论、归档、分类等功能。
+起初，使用 Vue3、TypeScript、Pinia 实现前端的个人博客，后端使用 Nest.js、MySQL、TypeORM、Redis 实现，以及完成文章发布运营平台，实现后发现维护以及需要安全防护的成本较高，某次偶然发现 [粥里有勺糖](https://sugarat.top/) 个人博客，使用 vitepress 搭建，自定义主题，维护成本很低，无需后端即可搭建个人博客，实现评论、归档、分类等功能。
 
 至此，再次感谢 🎉🎉🎉 [粥里有勺糖](https://sugarat.top/)
 

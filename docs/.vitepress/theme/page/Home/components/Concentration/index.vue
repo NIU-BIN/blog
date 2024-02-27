@@ -9,7 +9,7 @@
       >
         <span class="sequence">{{ item.sticky }}</span>
         <div>
-          <div class="article_name">
+          <div class="article_name" @click="linkTo(item)">
             {{ item.title }}
           </div>
           <div class="article_date">
@@ -21,6 +21,7 @@
   </div>
 </template>
 <script setup lang="ts">
+import { useRouter } from "vitepress";
 import type { ArticleItem } from "../../../../types";
 
 interface IProps {
@@ -28,6 +29,13 @@ interface IProps {
 }
 
 defineProps<IProps>();
+
+const router = useRouter();
+
+// 点击查看文章
+const linkTo = (article: ArticleItem) => {
+  router.go(article.path);
+};
 </script>
 <style lang="less" scoped>
 .concentration {

@@ -58,6 +58,10 @@ export default defineConfig({
             text: "React",
             link: "/front-end/React/基础hook",
           },
+          {
+            text: "Three.js",
+            link: "/front-end/Three.js/Three.js入门",
+          },
           // {
           //   text: "Node",
           //   link: "/front-end/Node",
@@ -81,6 +85,15 @@ export default defineConfig({
           {
             text: "reducer",
             link: "/front-end/React/reducer",
+          },
+        ],
+      },
+      {
+        text: "Three.js",
+        items: [
+          {
+            text: "Three.js入门",
+            link: "/front-end/Three.js/Three.js入门",
           },
         ],
       },

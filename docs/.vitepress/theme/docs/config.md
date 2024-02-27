@@ -1,5 +1,7 @@
 ## 自定义配置项
 
+<!-- TODO: 待补充 -->
+
 ```js
 {
   title: '@calf/theme',

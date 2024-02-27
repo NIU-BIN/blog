@@ -67,7 +67,7 @@ export const formatDate = (d: any, fmt = "yyyy-MM-dd hh:mm:ss") => {
 };
 
 // 获取文章信息
-export const getArticleInfo = (text: string, count = 120) => {
+export const getArticleInfo = (text: string, count = 180) => {
   const { articleContent, frontmatterContent } = clearMatterContent(text);
 
   // 获取文章封面
@@ -91,7 +91,7 @@ export const getArticleInfo = (text: string, count = 120) => {
         .trim()
     ) || undefined;
 
-  // 取md中纯内容截取前100
+  // 取md中纯内容截取前count
   const description =
     articleContent
       .match(/^# ([\s\S]+)/m)?.[1]
@@ -204,7 +204,9 @@ export const getFilesInfo = () => {
     `/archive`, // 归档
   ];
   // 去掉固定页面，其余为文章
-  const filesList = filesInfo.filter((item) => !PAGES_PATH.includes(item.path));
+  const filesList = filesInfo
+    .filter((item) => !PAGES_PATH.includes(item.path))
+    .sort((a, b) => +dayjs(b.date) - +dayjs(a.date));
   return filesList;
 };
 

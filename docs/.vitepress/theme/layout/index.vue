@@ -12,6 +12,9 @@
     </template>
 
     <template #doc-after> <Comment /> </template>
+    <template #doc-before>
+      <ImagePreview />
+    </template>
   </Layout>
 </template>
 <script setup>
@@ -20,6 +23,7 @@ import Home from "../page/Home/index.vue";
 import Sidebar from "../components/Sidebar/index.vue";
 import Footer from "../components/Footer/index.vue";
 import Comment from "../components/Comment/index.vue";
+import ImagePreview from "../components/ImagePreview/index.vue";
 import { useData } from "vitepress";
 import { computed } from "vue";
 
