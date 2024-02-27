@@ -1,26 +1,18 @@
 <template>
   <footer class="page_footer">
-    <div class="author">
-      Copyright ©{{ currentYear }} by
-      <a href="https://github.com/NIU-BIN" target="_blank">NIU-BIN</a>&nbsp;
-      |&nbsp; ICP备案号：
-      <a href="https://beian.miit.gov.cn/" target="_blank">
-        陕ICP备2024027341号
-      </a>
-    </div>
+    <div class="author">Copyright ©2023 by <a href="">@友人A</a></div>
     <div class="badge">
       <img src="https://img.shields.io/badge/-vite-ffffff?logo=vite" alt="" />
       <img src="https://img.shields.io/badge/-Vue3-34495e?logo=vue.js" alt="" />
       <img
-        src="https://img.shields.io/badge/-TypeScript-f2f2f2?logo=TypeScript"
+        src="https://img.shields.io/badge/-TypeScript-ffffff?logo=TypeScript"
         alt=""
       />
+      <!-- 34495e -->
     </div>
   </footer>
 </template>
-<script setup>
-const currentYear = new Date().getFullYear();
-</script>
+<script setup></script>
 <style lang="less" scoped>
 .page_footer {
   display: flex;
@@ -28,15 +20,14 @@ const currentYear = new Date().getFullYear();
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  height: 90px;
+  height: 80px;
   background-color: var(--vp-c-bg);
+<<<<<<< HEAD
   border-top: 1px solid #f2f2f2;
+=======
+>>>>>>> parent of 95359a1 (fix: 增加备案号、完善about页)
   .author {
-    font-size: 14px;
-    color: #a8a8a8;
-    a:hover {
-      color: #3b82f6;
-    }
+    font-size: 0.875rem;
   }
   .badge {
     display: flex;

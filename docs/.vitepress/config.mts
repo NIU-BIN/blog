@@ -98,7 +98,7 @@ export default defineConfig({
         ],
       },
     ],
-    socialLinks: [{ icon: "github", link: "https://github.com/NIU-BIN" }],
+    socialLinks: [{ icon: "github", link: "https://github.com/Niu-bin" }],
     // search: {
     //   provider: "local",
     // },

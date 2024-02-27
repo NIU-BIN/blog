@@ -11,9 +11,11 @@
       <Sidebar />
     </template>
 
-    <template #doc-after> <Comment /> </template>
-    <template #doc-before>
-      <ImagePreview />
+    <template #doc-after>
+      <Comment />
+      <ClientOnly>
+        <ImagePreview />
+      </ClientOnly>
     </template>
   </Layout>
 </template>

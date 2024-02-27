@@ -7,9 +7,6 @@ import { ArticleItem, ThemeConfig } from "../../types";
 import { DefaultTheme } from "vitepress";
 import dayjs from "dayjs";
 
-/* 
-  clearMatterContent,formatDate,getArticleInfo  方法参考项目： https://github.com/ATQQ/sugar-blog/tree/master/packages/theme
-*/
 export const clearMatterContent = (content: string) => {
   let first___: unknown;
   let second___: unknown;
@@ -70,7 +67,7 @@ export const formatDate = (d: any, fmt = "yyyy-MM-dd hh:mm:ss") => {
 export const getArticleInfo = (text: string, count = 180) => {
   const { articleContent, frontmatterContent } = clearMatterContent(text);
 
-  // 获取文章封面
+  // 获取文章封面  TODO: 默认封面文章封面进行配置
   const cover =
     frontmatterContent
       .find((str) => {
