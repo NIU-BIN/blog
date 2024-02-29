@@ -10,21 +10,9 @@
 
 ## :sparkles: 在做什么
 
-### 公司
-
 - 负责前端项目构建设计
 - 前端人员管理
 - 公司产品研发
-
-### 开源
-
-<!-- - 2023.01 - ing：VitePress 博客主题：[@sugarat/theme 主题](https://theme.sugarat.top/) -->
-
-- ...
-
-## :rocket: 当下
-
-## :pencil: 座右铭
 
 ## :phone: 联系我
 
@@ -32,7 +20,6 @@
 
 **微信**：
 
-<<<<<<< HEAD
 <img src="/wechat.jpg" style="width:200px; margin: 0 auto;">
 
 ## 关于该网站
@@ -55,6 +42,3 @@
 ## 免责声明
 
 该博客所用图片大多来源于开源 [pixabay](https://pixabay.com/zh/) 图片，个别图片来源于互联网，仅用于学习交流，并非商用，若有侵权，请联系，速删
-=======
-<img src="" style="width:200px;">
->>>>>>> parent of 95359a1 (fix: 增加备案号、完善about页)

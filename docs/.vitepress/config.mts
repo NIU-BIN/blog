@@ -38,7 +38,15 @@ export default defineConfig({
     nav: [
       { text: "主页", link: "/" },
       { text: "归档", link: "/archive" },
-      { text: "技术笔记", link: "/note" },
+      // {
+      //   text: "笔记",
+      //   items: [
+      //     {
+      //       text: "React",
+      //       link: "/front-end/React/基础hook",
+      //     },
+      //   ],
+      // },
       {
         text: "大前端",
         items: [

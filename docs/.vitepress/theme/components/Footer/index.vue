@@ -22,10 +22,7 @@
   gap: 0.5rem;
   height: 80px;
   background-color: var(--vp-c-bg);
-<<<<<<< HEAD
   border-top: 1px solid #f2f2f2;
-=======
->>>>>>> parent of 95359a1 (fix: 增加备案号、完善about页)
   .author {
     font-size: 0.875rem;
   }
