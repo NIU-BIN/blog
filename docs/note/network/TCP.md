@@ -7,7 +7,7 @@ cover: https://cdn.pixabay.com/photo/2014/04/14/20/11/pink-324175_640.jpg
 
 - TCP 连接三次握手
 
-![8]()
+![](http://tuchuang.niubin.site/image/network-7.png)
 
 步骤：
 
@@ -15,9 +15,11 @@ cover: https://cdn.pixabay.com/photo/2014/04/14/20/11/pink-324175_640.jpg
 2. 客户端收到 SYN+seq 字段后，服务端也生成一个 seq 序列号，并且将客户端送过来的 seq+1 作为 ack 携带 ACK 确认号发送给客户端表示之前的 SYN 已经收到了
 3. 客户端收到服务端响应后还会发送一个 ACK 确认序列号有效，并且还会发送 seq（这里的 seq 会通过算法计算处理啊是否与服务端的 ack 值相同），然后将服务端返回的 seq+1 作为新的 ack 发送给服务端，确保一切正常
 
+![](http://tuchuang.niubin.site/image/network-8.png)
+
 - 四次挥手
 
-![9]()
+![](http://tuchuang.niubin.site/image/network-9.png)
 
 步骤：
 

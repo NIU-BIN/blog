@@ -38,30 +38,18 @@ export default defineConfig({
     nav: [
       { text: "主页", link: "/" },
       { text: "归档", link: "/archive" },
-      // {
-      //   text: "笔记",
-      //   items: [
-      //     {
-      //       text: "React",
-      //       link: "/front-end/React/基础hook",
-      //     },
-      //   ],
-      // },
+      {
+        text: "笔记",
+        items: [
+          {
+            text: "网络",
+            link: "/note/network/OSI七层模型",
+          },
+        ],
+      },
       {
         text: "大前端",
         items: [
-          // {
-          //   text: "JavaScript",
-          //   link: "/front-end/JavaScript",
-          // },
-          // {
-          //   text: "CSS",
-          //   link: "/front-end/CSS",
-          // },
-          // {
-          //   text: "Vue",
-          //   link: "/front-end/Vue",
-          // },
           {
             text: "React",
             link: "/front-end/React/基础hook",
@@ -70,10 +58,6 @@ export default defineConfig({
             text: "Three.js",
             link: "/front-end/Three.js/Three.js入门",
           },
-          // {
-          //   text: "Node",
-          //   link: "/front-end/Node",
-          // },
         ],
       },
       { text: "关于", link: "/about" },
@@ -102,6 +86,19 @@ export default defineConfig({
           {
             text: "Three.js入门",
             link: "/front-end/Three.js/Three.js入门",
+          },
+        ],
+      },
+      {
+        text: "network",
+        items: [
+          {
+            text: "OSI七层模型",
+            link: "/note/network/OSI七层模型",
+          },
+          {
+            text: "TCP",
+            link: "/note/network/TCP",
           },
         ],
       },

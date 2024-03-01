@@ -8,7 +8,7 @@ cover: https://cdn.pixabay.com/photo/2014/04/14/20/11/pink-324175_640.jpg
 视频地址：
 [https://www.bilibili.com/video/BV1rL411a7UN/?spm_id_from=333.999.0.0&vd_source=6ed5782e2c8f2ccd30598b5f7d28a264](https://www.bilibili.com/video/BV1rL411a7UN/?spm_id_from=333.999.0.0&vd_source=6ed5782e2c8f2ccd30598b5f7d28a264)
 
-![1]()
+![](http://tuchuang.niubin.site/image/network-1.png)
 
 ## 物理层
 
@@ -18,20 +18,20 @@ cover: https://cdn.pixabay.com/photo/2014/04/14/20/11/pink-324175_640.jpg
 
 - 有线信道
   - 明线
-    ![2]()
+    ![](http://tuchuang.niubin.site/image/network-2.png)
     明线是指平行架设在电线杆上的架空线路。它本身是导电裸线或带绝缘层的导线。虽然它的传输损耗低，但是由于易受天气和环境的影响，对外界噪声干扰比较敏感，已经逐渐被电缆取代。
   - 对称电缆
-    ![3]()
+    ![](http://tuchuang.niubin.site/image/network-3.png)
     对称电缆是由多对双绞线组成的线缆，相对于明线抗干扰能力强、传输距离较远、带宽较大，但是相比其他信道如明线，同轴电缆的成本较高。
   - 同轴电缆
-    ![4]()
+    ![](http://tuchuang.niubin.site/image/network-4.png)
     同轴线缆的应用范围极为广泛，同轴电缆能以低损耗的方式传输模拟信号和数字信号，适用于各种应用，其中常见的有电视广播系统、长途电话传输系统、计算机系统之间的短距离跳线以及局域网互联等
   - 光纤
-    ![5]()
+    ![](http://tuchuang.niubin.site/image/network-5.png)
     光导纤维是一种用于传输光信号的传输介质，纤维核心通常由玻璃或塑料制成，用于传输光信号。光导纤维传输数据的原理是基于光的全反射现象。优点有传输距离远、带宽大、抗干扰性能好、重量轻、安全性高等。这使得光导纤维在许多领域得到广泛应用，如长途通信、数据中心互联、有线电视网络、城市光纤环路、军事通信等。此外，光导纤维也被用于光纤传感器、医疗设备和照明等领域。
 - 无线信道
   - 无线电波
-    ![6]()
+    ![](http://tuchuang.niubin.site/image/network-6.png)
     无线电波是一种电磁波，无线电波的频率范围非常广泛，频率决定了其传输特性和应用场景，缺点是信号衰减、容易受到干扰和多径效应等
 
 物理层主要作用是通过（电、光、无线电波）获取到他们对应的信号、电压，转换为 01010101 这种一串由 0 和 1 组成的数字序列二进制比特，但是数据还没组织，他们的单位为 bit，所以该层主要是传输比特流
