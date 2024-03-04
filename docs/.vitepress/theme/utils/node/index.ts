@@ -33,36 +33,6 @@ export const clearMatterContent = (content: string) => {
   };
 };
 
-export const formatDate = (d: any, fmt = "yyyy-MM-dd hh:mm:ss") => {
-  if (!(d instanceof Date)) {
-    d = new Date(d);
-  }
-  const o: any = {
-    "M+": d.getMonth() + 1, // 月份
-    "d+": d.getDate(), // 日
-    "h+": d.getHours(), // 小时
-    "m+": d.getMinutes(), // 分
-    "s+": d.getSeconds(), // 秒
-    "q+": Math.floor((d.getMonth() + 3) / 3), // 季度
-    S: d.getMilliseconds(), // 毫秒
-  };
-  if (/(y+)/.test(fmt)) {
-    fmt = fmt.replace(
-      RegExp.$1,
-      `${d.getFullYear()}`.substr(4 - RegExp.$1.length)
-    );
-  }
-  // eslint-disable-next-line no-restricted-syntax
-  for (const k in o) {
-    if (new RegExp(`(${k})`).test(fmt))
-      fmt = fmt.replace(
-        RegExp.$1,
-        RegExp.$1.length === 1 ? o[k] : `00${o[k]}`.substr(`${o[k]}`.length)
-      );
-  }
-  return fmt;
-};
-
 // 获取文章信息
 export const getArticleInfo = (text: string, count = 180) => {
   const { articleContent, frontmatterContent } = clearMatterContent(text);
@@ -126,23 +96,37 @@ export const getArticleInfo = (text: string, count = 180) => {
 
 // 获取文章发布时间
 export const getFileBirthTime = (url: string) => {
-  let date: Date | string = new Date();
+  let date: string = dayjs().format("YYYY-MM-DD hh:mm:ss");
+  let updateTime: string = dayjs().format("YYYY-MM-DD hh:mm:ss");
 
   try {
-    // 参考 vitepress 中的 getGitTimestamp 实现
-    const infoStr = spawnSync("git", ["log", "-1", '--pretty="%ci"', url])
+    // 使用git log命令获取文件的提交时间
+    // git log --pretty=%ci --reverse docs/note/network/TCP.md
+    // --reverse  倒序
+    const timelineData = spawnSync("git", [
+      "log",
+      '--pretty="%ci"',
+      "--reverse",
+      url,
+    ])
       .stdout?.toString()
+      .trim()
       .replace(/["']/g, "")
-      .trim();
-    if (infoStr) {
-      date = new Date(infoStr);
+      .split("\n");
+
+    if (timelineData) {
+      date = dayjs(timelineData[0]).format("YYYY-MM-DD hh:mm:ss");
+      updateTime = dayjs(timelineData[timelineData.length - 1]).format(
+        "YYYY-MM-DD hh:mm:ss"
+      );
     }
   } catch (error) {
-    date = formatDate(date);
+    console.log("error:", error);
   }
 
   return {
-    date: formatDate(date),
+    date,
+    updateTime: dayjs(updateTime).format("YYYY-MM-DD hh:mm:ss"),
     month: dayjs(date).format("YYYY-MM"),
     day: dayjs(date).format("YYYY-MM-DD"),
   };
@@ -178,7 +162,7 @@ export const getFilesInfo = () => {
       原计划按照文件修改时间为准，但是为了避免文件误修改导致文件修改时间改变
       文章发布时间按照git的timestamp为准
     */
-    const { date, month, day } = getFileBirthTime(file);
+    const { date, month, day, updateTime } = getFileBirthTime(file);
     // const description = getArticleInfo(fileContent) || "";
 
     const fileInfo: ArticleItem = {
@@ -186,6 +170,7 @@ export const getFilesInfo = () => {
       title,
       description,
       date,
+      updateTime,
       month,
       day,
       cover,

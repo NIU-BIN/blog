@@ -61,6 +61,7 @@ interface archiveItem {
 }
 
 const { logo, article } = useConfig();
+console.log("article: ", article);
 
 const router = useRouter();
 const { isDark } = useData();

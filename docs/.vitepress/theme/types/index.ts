@@ -6,6 +6,7 @@ export interface ArticleItem {
   title: string;
   description: string;
   date: string;
+  updateTime: string;
   month: string;
   day: string;
   cover?: string;

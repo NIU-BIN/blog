@@ -85,12 +85,12 @@ const autherInfo = ref<AutherInfo>({
     },
     {
       id: "tag",
-      name: "本月更新",
+      name: "最近一月",
       value: withinMonthNumber,
     },
     {
       id: "message",
-      name: "本周更新",
+      name: "最近一周",
       value: withinWeekNumber,
     },
   ],
