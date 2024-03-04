@@ -29,7 +29,6 @@
       <el-pagination
         background
         :page-size="pageSize"
-        :page-count="currentPage"
         layout="prev, pager, next"
         :total="list.length"
         @current-change="handleCurrentChange"

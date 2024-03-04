@@ -62,3 +62,5 @@ export function useConfig() {
 export function useBlogConfig() {
   return inject(configSymbol)!.value.blog!;
 }
+
+export const insetToAfterDocTitle = (dom: HTMLElement) => {};
