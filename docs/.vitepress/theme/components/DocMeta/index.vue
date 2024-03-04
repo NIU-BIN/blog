@@ -1,5 +1,5 @@
 <template>
-  <div ref="docMeta" v-if="!IGNORE_PATH.includes(route.path)">
+  <div ref="docMeta" v-show="!IGNORE_PATH.includes(route.path)">
     <div class="doc_meta">
       <div class="meta_item" title="分类">
         <svg
@@ -28,7 +28,7 @@
             p-id="2654"
           ></path>
         </svg>
-        <span>{{ props.category }}</span>
+        <span>{{ props.category || "" }}</span>
       </div>
       <div class="meta_item" title="更新时间">
         <svg
@@ -59,7 +59,7 @@ import { useConfig } from "../../utils/client";
 import { ArticleItem } from "../../types";
 
 interface IProps {
-  category: string;
+  category: string | undefined;
 }
 
 const props = defineProps<IProps>();
@@ -81,15 +81,17 @@ const IGNORE_PATH = ["/about.html", "/archive.html", "/"];
 watch(
   () => route.path,
   (newValue) => {
-    if (IGNORE_PATH.includes(newValue)) return;
-    const currentPageInfo = article.find(
-      (item) =>
-        decodeURIComponent(item.path) + ".html" === decodeURIComponent(newValue)
-    );
-    articleInfo.value = currentPageInfo;
-    nextTick(() => {
-      setMetaDOM();
-    });
+    if (!IGNORE_PATH.includes(newValue)) {
+      const currentPageInfo = article.find(
+        (item) =>
+          decodeURIComponent(item.path) + ".html" ===
+          decodeURIComponent(newValue)
+      );
+      articleInfo.value = currentPageInfo;
+      nextTick(() => {
+        setMetaDOM();
+      });
+    }
   },
   {
     immediate: true,
