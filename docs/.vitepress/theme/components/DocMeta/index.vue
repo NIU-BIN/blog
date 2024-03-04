@@ -71,8 +71,11 @@ const articleInfo = ref<ArticleItem>({} as ArticleItem);
 
 const setMetaDOM = () => {
   const docTitle = document.querySelector(".vp-doc h1");
-  docTitle?.insertAdjacentHTML("afterend", docMeta.value.getInnerHTML());
-  docMeta.value.remove();
+  const docMetaDOM = document.querySelector(".vp-doc doc_meta");
+  if (!docMetaDOM) {
+    docTitle?.insertAdjacentHTML("afterend", docMeta.value.getInnerHTML());
+    docMeta.value.remove();
+  }
 };
 
 // 不是文章的页面

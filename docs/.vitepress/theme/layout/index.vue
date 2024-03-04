@@ -9,7 +9,9 @@
       <Sidebar />
     </template>
     <template #doc-before>
-      <DocMeta :category="frontmatter.category" />
+      <ClientOnly>
+        <DocMeta :category="frontmatter.category" />
+      </ClientOnly>
     </template>
     <template #doc-after>
       <Comment />
@@ -32,7 +34,6 @@ import { computed } from "vue";
 
 const { Layout } = Theme;
 const { frontmatter } = useData();
-console.log("useData(): ", useData());
 
 const layout = computed(() => frontmatter.value.layout);
 </script>
