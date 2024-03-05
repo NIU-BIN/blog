@@ -3,7 +3,6 @@
 该博客由 [vitepress](https://vitepress.dev/zh/) 为基础，使用 Vue3、TypeScript 自定义改造，现已完成下述功能，✔ 为已完成
 
 - [x] 首页结构重写
-- [x] 重写首页样式
 - [x] 获取文章数据
 - [x] 文章左侧导航列表
 - [x] 文章封面配置
