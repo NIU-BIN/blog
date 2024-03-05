@@ -8,11 +8,11 @@
     <template #sidebar-nav-after>
       <Sidebar />
     </template>
-    <template #doc-before>
+    <!-- <template #doc-before>
       <ClientOnly>
         <DocMeta :category="frontmatter.category" />
       </ClientOnly>
-    </template>
+    </template> -->
     <template #doc-after>
       <Comment />
       <ClientOnly>

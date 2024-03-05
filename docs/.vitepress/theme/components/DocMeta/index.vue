@@ -71,7 +71,7 @@ const articleInfo = ref<ArticleItem>({} as ArticleItem);
 
 const setMetaDOM = () => {
   const docTitle = document.querySelector(".vp-doc h1");
-  const docMetaDOM = document.querySelector(".vp-doc doc_meta");
+  const docMetaDOM = document.querySelector(".vp-doc .doc_meta");
   if (!docMetaDOM) {
     docTitle?.insertAdjacentHTML("afterend", docMeta.value.getInnerHTML());
     docMeta.value.remove();
