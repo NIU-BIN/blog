@@ -16,10 +16,10 @@
 
 ## 博客样图
 
-![首页](/image/1.png)
-![归档](/image/2.png)
-![文章](/image/3.png)
-![暗夜](/image/4.png)
+![首页](/image/1.webp)
+![归档](/image/2.webp)
+![文章](/image/3.webp)
+![暗夜](/image/4.webp)
 
 ## 线上地址
 
