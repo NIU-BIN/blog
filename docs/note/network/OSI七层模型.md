@@ -1,6 +1,6 @@
 ---
 category: network
-cover: https://cdn.pixabay.com/photo/2014/04/14/20/11/pink-324175_640.jpg
+cover: https://cdn.pixabay.com/photo/2023/07/24/09/14/coccinellidae-8146623_640.jpg
 ---
 
 # OSI 七层模型

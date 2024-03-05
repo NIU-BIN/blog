@@ -48,7 +48,7 @@ const bgImage = frontmatter.value.blog?.bg;
 const articleList = ref<ArticleItem[]>(theme.value.article);
 const stickyArticleList = ref<ArticleItem[]>([]);
 
-console.log("articleList: ", articleList.value);
+// console.log("articleList: ", articleList.value);
 
 // 一个月前的时间戳
 const lastMonthTime = dayjs().subtract(30, "day").unix();

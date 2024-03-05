@@ -1,11 +1,9 @@
 ---
 category: network
-cover: https://cdn.pixabay.com/photo/2014/04/14/20/11/pink-324175_640.jpg
+cover: https://cdn.pixabay.com/photo/2023/10/30/05/19/sunflowers-8351807_640.jpg
 ---
 
 # 浏览器输入 URL 发生了什么
-
-如果输入是域名需要先进行 DNS 解析
 
 ## DNS 查询
 
