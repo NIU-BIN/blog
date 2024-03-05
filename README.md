@@ -16,12 +16,10 @@
 
 ## 博客样图
 
-<div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
-  <img src="/image/1.png"/>
-  <img src="/image/2.png"/>
-  <img src="/image/3.png"/>
-  <img src="/image/4.png"/>
-</div>
+![首页](/image/1.png)
+![归档](/image/2.png)
+![文章](/image/3.png)
+![暗夜](/image/4.png)
 
 ## 线上地址
 
