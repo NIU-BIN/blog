@@ -21,10 +21,16 @@ export const themeConfig = getThemeConfig({
       link: "https://sugarat.top/",
     },
     {
-      avatar: "https://vitepress.dev/vitepress-logo-large.webp",
-      name: "Vitepress",
-      desc: "Vite & Vue Powered Static Site Generator",
-      link: "https://vitepress.dev/zh/",
+      avatar: "https://cdn.jsdelivr.net/gh/hehuan2023/pic/typora/rabbit.png",
+      name: "dleei",
+      desc: "欢迎访问代磊的个人博客鸭~",
+      link: "https://dleei.github.io/",
+    },
+    {
+      avatar: "https://blog.lubowen.xyz/_nuxt/head.6a38cc3c.jpg",
+      name: "小鹿",
+      desc: "愿你一生有山可靠，有树可栖。与心爱之人，春赏花，夏纳凉。秋登山，冬扫雪。",
+      link: "https://blog.lubowen.xyz/",
     },
   ],
 });

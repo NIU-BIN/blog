@@ -100,6 +100,10 @@ export default defineConfig({
             text: "TCP",
             link: "/note/network/TCP",
           },
+          {
+            text: "浏览器输入URL发生了什么",
+            link: "/note/network/浏览器输入URL发生了什么",
+          },
         ],
       },
     ],
