@@ -76,7 +76,7 @@ getStickyArticleList();
 
 // 作者信息
 const autherInfo = ref<AutherInfo>({
-  name: "友人A",
+  name: theme.value.author,
   tags: [
     {
       id: "article",

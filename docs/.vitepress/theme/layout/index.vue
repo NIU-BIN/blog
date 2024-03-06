@@ -17,6 +17,7 @@
       <Comment />
       <ClientOnly>
         <ImagePreview />
+        <BackToTop />
       </ClientOnly>
     </template>
   </Layout>
@@ -28,6 +29,7 @@ import Sidebar from "../components/Sidebar/index.vue";
 import Footer from "../components/Footer/index.vue";
 import Comment from "../components/Comment/index.vue";
 import ImagePreview from "../components/ImagePreview/index.vue";
+import BackToTop from "../components/BackToTop/index.vue";
 import DocMeta from "../components/DocMeta/index.vue";
 import { useData } from "vitepress";
 import { computed } from "vue";

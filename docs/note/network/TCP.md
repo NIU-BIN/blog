@@ -5,7 +5,7 @@ cover: https://cdn.pixabay.com/photo/2024/02/21/14/42/flowers-8587835_640.jpg
 
 # TCP
 
-- TCP 连接三次握手
+## TCP 连接三次握手
 
 ![](http://tuchuang.niubin.site/image/network-7.png)
 
@@ -17,7 +17,7 @@ cover: https://cdn.pixabay.com/photo/2024/02/21/14/42/flowers-8587835_640.jpg
 
 ![](http://tuchuang.niubin.site/image/network-8.png)
 
-- 四次挥手
+## 四次挥手
 
 ![](http://tuchuang.niubin.site/image/network-9.png)
 

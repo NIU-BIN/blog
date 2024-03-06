@@ -10,7 +10,6 @@ import { withConfigProvider } from "./utils/client";
 import Archive from "./page/Archive/index.vue";
 import "element-plus/dist/index.css";
 import "element-plus/theme-chalk/dark/css-vars.css";
-// import { ElTimeline, ElTimelineItem } from "element-plus";
 
 const MineTheme: Theme = {
   // ...DefaultTheme,
@@ -21,8 +20,6 @@ const MineTheme: Theme = {
     // ...
     // DefaultTheme.enhanceApp(ctx);
     ctx.app.component("Archive", Archive); // 全局注册组件
-    // ctx.app.use("ElTimeline", ElTimeline); // 全局注册组件
-    // ctx.app.use("ElTimelineItem", ElTimelineItem); // 全局注册组件
   },
 };
 

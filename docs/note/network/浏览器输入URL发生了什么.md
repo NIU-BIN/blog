@@ -51,10 +51,10 @@ options 请求会有两种情况出现：
 
 ## 协商缓存
 
-Last-Modified: Sat, 09 Apr 2023 20:11:23 GMT(最后被修改的时间)
-If-Modified-Since: Sat, 09 Apr 2023 20:11:23 GMT
-ETag: "aaaaasssdasddasdsd"
-If-None-Match: "aaaaaaaaaaaaaaaa"
+- Last-Modified: Sat, 09 Apr 2023 20:11:23 GMT(最后被修改的时间)
+- If-Modified-Since: Sat, 09 Apr 2023 20:11:23 GMT
+- ETag: "aaaaasssdasddasdsd"
+- If-None-Match: "aaaaaaaaaaaaaaaa"
 
 当服务端发现资源最后修改时间和 `If-Modified-Since` 值相等，代表资源从该时间后再未改变过。服务端于是返回 `304(Not Modified)` 状态码，表示资源没有改变，并且响应体为空。浏览器拿到后，就知道原本可能过期的缓存其实还可以继续使用。如果资源改变了，就会返回 200，且响应体带上最新资源。
 Etag 的值没有规定一般是文件 hash，你也可以设置版本号之类的去对比

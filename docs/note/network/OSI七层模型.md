@@ -5,9 +5,6 @@ cover: https://cdn.pixabay.com/photo/2023/07/24/09/14/coccinellidae-8146623_640.
 
 # OSI 七层模型
 
-<!-- 视频地址：
-[https://www.bilibili.com/video/BV1rL411a7UN/?spm_id_from=333.999.0.0&vd_source=6ed5782e2c8f2ccd30598b5f7d28a264](https://www.bilibili.com/video/BV1rL411a7UN/?spm_id_from=333.999.0.0&vd_source=6ed5782e2c8f2ccd30598b5f7d28a264) -->
-
 ![](http://tuchuang.niubin.site/image/network-1.png)
 
 ## 物理层
