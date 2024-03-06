@@ -104,6 +104,10 @@ export default defineConfig({
             text: "浏览器输入URL发生了什么",
             link: "/note/network/浏览器输入URL发生了什么",
           },
+          {
+            text: "SSE",
+            link: "/note/network/SSE",
+          },
         ],
       },
     ],

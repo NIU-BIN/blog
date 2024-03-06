@@ -61,15 +61,12 @@ watch(
 .back_to_top {
   cursor: pointer;
   position: fixed;
-  // top: 0;
   right: 80px;
   top: -900px;
   z-index: 1000;
   width: 70px;
   height: 900px;
-  /* background: url(https://blog-static.cnblogs.com/files/fsh001/scroll.gif); */
   background: url("../../styles/scroll.gif");
-  animation: float 2s linear infinite;
   transition: all 0.5s ease-in-out;
   opacity: 1;
 }
