@@ -18,7 +18,7 @@ const top = ref<number>(-900);
 const offsetHeight = ref<number>(0);
 
 const topTop = () => {
-  top.value = -999;
+  top.value = -900;
   window.scrollTo({
     top: 0,
     behavior: "smooth",
@@ -58,6 +58,24 @@ watch(
 );
 </script>
 <style lang="less" scoped>
+@keyframes float {
+  0% {
+    -webkit-transform: translateY(0);
+    -ms-transform: translateY(0);
+    transform: translateY(0);
+  }
+  50% {
+    -webkit-transform: translateY(-10px);
+    -ms-transform: translateY(-10px);
+    transform: translateY(-10px);
+  }
+  100% {
+    -webkit-transform: translateY(0);
+    -ms-transform: translateY(0);
+    transform: translateY(0);
+  }
+}
+
 .back_to_top {
   cursor: pointer;
   position: fixed;
@@ -69,5 +87,8 @@ watch(
   background: url("../../styles/scroll.gif");
   transition: all 0.5s ease-in-out;
   opacity: 1;
+  &:hover {
+    animation: float 2s linear infinite;
+  }
 }
 </style>
