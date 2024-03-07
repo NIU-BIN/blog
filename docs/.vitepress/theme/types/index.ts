@@ -13,6 +13,7 @@ export interface ArticleItem {
   tag?: string[];
   author?: string;
   sticky?: number;
+  category: string;
 }
 
 // 用户标签

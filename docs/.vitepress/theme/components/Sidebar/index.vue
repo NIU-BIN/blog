@@ -10,17 +10,17 @@
         class="sider_list_item"
         :class="{
           article_active:
-            decodeURIComponent(route.path) === `${item.link}.html`,
+            decodeURIComponent(route.path) === `${item.path}.html`,
         }"
         @click="linkTo(item)"
       >
         <span class="sequence">{{ item.sequence }}</span>
         <div>
           <div class="article_name">
-            {{ item.text }}
+            {{ item.title }}
           </div>
           <div class="article_date">
-            {{ item.date }}
+            {{ item.day }}
           </div>
         </div>
       </li>
@@ -29,44 +29,34 @@
 </template>
 <script setup lang="ts">
 import { useData, useRoute, useRouter } from "vitepress";
-import { computed, ref, watch } from "vue";
+import { ref, watch } from "vue";
+import { ArticleItem } from "../../types";
 
-interface SiderbarItem {
-  text: string;
-  link: string;
-  sequence: number;
-  date: string;
-}
+type SiderbarItem = ArticleItem & { sequence: number };
 
 const route = useRoute();
 const router = useRouter();
-const { theme, page } = useData();
-
 const sideList = ref<SiderbarItem[]>([]);
 
-const siderbarList = theme.value.sidebar;
+const { theme, page } = useData();
+
 const articleList = theme.value.article;
 
 const getCurrentPageSiderList = () => {
   const currentCategory = page.value.frontmatter.category;
-  const currentPageSiderList = siderbarList.find(
-    (item) => item.text === currentCategory
-  );
-  const currentSiderList = currentPageSiderList?.items.map((item, index) => {
-    return {
-      ...item,
-      sequence: index + 1,
-      date: articleList.find((v) => v.text === item.title)?.date,
-    };
-  });
-  currentSiderList?.sort((a, b) => +new Date(b.date) - +new Date(a.date));
-
-  // console.log(currentSiderList);
-  sideList.value = currentSiderList;
+  const currentPageSiderList = articleList
+    .filter((item: ArticleItem) => item.category === currentCategory)
+    .map((item, index) => {
+      return {
+        ...item,
+        sequence: index + 1,
+      };
+    });
+  sideList.value = currentPageSiderList;
 };
 
 const linkTo = (article) => {
-  router.go(article.link);
+  router.go(article.path);
 };
 
 watch(

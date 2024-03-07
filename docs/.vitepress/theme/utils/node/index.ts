@@ -58,6 +58,15 @@ export const getArticleInfo = (text: string, count = 180) => {
         .trim()
     ) || undefined;
 
+  // 获取文章分类
+  const category =
+    frontmatterContent
+      .find((str) => {
+        return str.startsWith("category:");
+      })
+      ?.slice(9)
+      .trim() || "";
+
   // 取md中纯内容截取前count
   const description =
     articleContent
@@ -91,6 +100,7 @@ export const getArticleInfo = (text: string, count = 180) => {
     description,
     cover,
     sticky,
+    category,
   };
 };
 
@@ -157,7 +167,8 @@ export const getFilesInfo = () => {
     /* 
       TODO: 封面计划在md的frontmatter中配置，暂定使用正则匹配
     */
-    const { title, description, cover, sticky } = getArticleInfo(fileContent);
+    const { title, description, cover, sticky, category } =
+      getArticleInfo(fileContent);
     /* 
       原计划按照文件修改时间为准，但是为了避免文件误修改导致文件修改时间改变
       文章发布时间按照git的timestamp为准
@@ -175,6 +186,7 @@ export const getFilesInfo = () => {
       day,
       cover,
       sticky,
+      category,
     };
 
     return fileInfo;
