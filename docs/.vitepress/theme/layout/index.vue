@@ -3,7 +3,12 @@
     <template #home-hero-before>
       <Home />
     </template>
-    <template #layout-bottom> <Footer v-if="layout === 'home'" /> </template>
+    <template #layout-bottom>
+      <Footer v-if="layout === 'home'" />
+      <ClientOnly>
+        <BoardPets />
+      </ClientOnly>
+    </template>
 
     <template #sidebar-nav-after>
       <Sidebar />
@@ -31,6 +36,7 @@ import Comment from "../components/Comment/index.vue";
 import ImagePreview from "../components/ImagePreview/index.vue";
 import BackToTop from "../components/BackToTop/index.vue";
 import DocMeta from "../components/DocMeta/index.vue";
+import BoardPets from "../components/BoardPets/index.vue";
 import { useData } from "vitepress";
 import { computed } from "vue";
 

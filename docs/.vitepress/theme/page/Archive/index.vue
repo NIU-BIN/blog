@@ -124,15 +124,15 @@ getContributeList();
   width: 100%;
   height: calc(100vh - var(--vp-nav-height));
   position: fixed;
-  // top: 0;
   top: var(--vp-nav-height);
   display: flex;
   flex-direction: column;
   align-items: center;
   overflow-y: auto;
+  z-index: 26;
   .cover {
     width: 100%;
-    height: 40vh;
+    height: 42vh;
     background-image: url("../../../../public/archive_cover.jpg");
     // background-image: url("../../../../public/2.jpg");
     // background-position: left 80%;
