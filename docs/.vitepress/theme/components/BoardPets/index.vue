@@ -21,6 +21,10 @@ onMounted(() => {
         hOffset: 0,
         vOffset: 0,
       },
+      mobile: {
+        show: false,
+      },
+      // mobile: true,
       // dialog: {
       //   // 开启对话框
       //   enable: true,

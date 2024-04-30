@@ -51,6 +51,10 @@ export default defineConfig({
         text: "大前端",
         items: [
           {
+            text: "CSS",
+            link: "/front-end/CSS/grid布局",
+          },
+          {
             text: "React",
             link: "/front-end/React/基础hook",
           },
@@ -63,6 +67,15 @@ export default defineConfig({
       { text: "关于", link: "/about" },
     ],
     sidebar: [
+      {
+        text: "CSS",
+        items: [
+          {
+            text: "grid布局",
+            link: "/front-end/CSS/grid布局",
+          },
+        ],
+      },
       {
         text: "React",
         items: [
@@ -111,7 +124,7 @@ export default defineConfig({
         ],
       },
     ],
-    socialLinks: [{ icon: "github", link: "https://github.com/Niu-bin" }],
+    socialLinks: [{ icon: "github", link: "https://github.com/NIU-BIN" }],
     // search: {
     //   provider: "local",
     // },

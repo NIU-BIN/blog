@@ -28,7 +28,7 @@
 
 ### 💥 灵感来源
 
-起初，使用 Vue3、TypeScript、Pinia 实现前端的个人博客，后端使用 Nest.js、MySQL、TypeORM、Redis 实现，以及完成文章发布运营平台，实现后发现维护以及需要安全防护的成本较高，某次偶然发现 [粥里有勺糖](https://sugarat.top/) 个人博客，使用 vitepress 搭建，自定义主题，维护成本很低，无需后端即可搭建个人博客。
+起初，使用 Vue3、TypeScript、Pinia 实现前端的个人博客，后端使用 Nest.js、MySQL、TypeORM、Redis 实现，以及完成文章发布运营平台，实现后发现维护以及需要安全防护的成本较高，某次偶然发现 [粥里有勺糖](https://sugarat.top/) 个人博客，使用 vitepress 搭建，自定义主题，得益于该思路，于是此博客油然而生。
 
 至此，再次感谢 🎉🎉🎉 [粥里有勺糖](https://sugarat.top/)
 
