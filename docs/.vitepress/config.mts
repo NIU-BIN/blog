@@ -45,6 +45,10 @@ export default defineConfig({
             text: "网络",
             link: "/note/network/OSI七层模型",
           },
+          {
+            text: "项目",
+            link: "/note/project/Monorepo架构",
+          },
         ],
       },
       {
@@ -120,6 +124,15 @@ export default defineConfig({
           {
             text: "SSE",
             link: "/note/network/SSE",
+          },
+        ],
+      },
+      {
+        text: "project",
+        items: [
+          {
+            text: "Monorepo架构",
+            link: "/note/project/Monorepo架构",
           },
         ],
       },
