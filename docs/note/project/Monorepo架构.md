@@ -1,6 +1,6 @@
 ---
 category: project
-cover: https://cdn.pixabay.com/photo/2017/10/05/09/05/railway-2818748_640.jpg
+cover: https://cdn.pixabay.com/photo/2024/05/15/12/31/lake-8763490_640.jpg
 ---
 
 # Monorepo 架构
@@ -65,7 +65,7 @@ cover: https://cdn.pixabay.com/photo/2017/10/05/09/05/railway-2818748_640.jpg
 
 使用 `pnpm` 搭建前端 Monorepo 项目是一个很好的选择，因为 `pnpm` 提供了一个高效且节省空间的包管理方式。
 
-7. **环境安装**
+1. **环境安装**
 
 确保你安装了 Node.js 和 npm。
 
@@ -75,7 +75,7 @@ cover: https://cdn.pixabay.com/photo/2017/10/05/09/05/railway-2818748_640.jpg
 npm i pnpm -g
 ```
 
-8. **初始化 Monorepo 项目**
+2. **初始化 Monorepo 项目**
 
 创建项目文件夹，并初始化`package.json`
 
@@ -91,20 +91,20 @@ npm init -y
 
 ```JSON
 {
-"name": "@pnpm-monorepo/project1",
-"version": "1.0.0",
-"description": "",
-"main": "index.js",
-"scripts": {
-  "test": "echo \"Error: no test specified\" && exit 1"
-},
-"keywords": [],
-"author": "",
-"license": "ISC"
+  "name": "@pnpm-monorepo/project1",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }
 ```
 
-9. **设置 workspaces**
+3. **设置 workspaces**
 
 有多种设置工作空间的方法：
 
@@ -112,13 +112,13 @@ npm init -y
 
 ```JSON
 {
-"name": "my-monorepo",
-"version": "1.0.0",
-"private": true,
-"workspaces": [
-  "packages/**",
-  "project3"
-]
+  "name": "my-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "packages/**",
+    "project3"
+  ]
 }
 ```
 
@@ -144,7 +144,7 @@ pnpm install --recursive packages/**
 
 > 这种一次只能添加一种
 
-10. 将所有项目添加进工作空间
+4. 将所有项目添加进工作空间
 
 ```Shell
 pnpm i @pnpm-monorepo/project1 -w
@@ -168,41 +168,41 @@ pnpm i @pnpm-monorepo/project1 -w
 
 ```JSON
 {
-"name": "@pnpm-monorepo/project3",
-"version": "1.0.0",
-"description": "",
-"main": "index.js",
-"scripts": {
-  "test": "echo \"Error: no test specified\" && exit 1",
-  "dev": "vite --port 5555"
-},
-"keywords": [],
-"author": "",
-"license": "ISC"
+  "name": "@pnpm-monorepo/project3",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "vite --port 5555"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }
 ```
 
 ```JSON
 {
-"name": "pnpm-monorepo",
-"version": "1.0.0",
-"description": "",
-"main": "index.js",
-"scripts": {
-  "test": "echo \"Error: no test specified\" && exit 1",
-  "dev": "pnpm -C project3 dev"
-},
-"keywords": [],
-"author": "",
-"license": "ISC",
-"dependencies": {
-  "@pnpm-monorepo/project1": "workspace:^",
-  "@pnpm-monorepo/project2": "workspace:^",
-  "@pnpm-monorepo/project3": "workspace:^",
-  "@vitejs/plugin-vue": "^5.0.4",
-  "vite": "^5.2.11",
-  "vue": "^3.4.27"
-}
+  "name": "pnpm-monorepo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "pnpm -C project3 dev"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@pnpm-monorepo/project1": "workspace:^",
+    "@pnpm-monorepo/project2": "workspace:^",
+    "@pnpm-monorepo/project3": "workspace:^",
+    "@vitejs/plugin-vue": "^5.0.4",
+    "vite": "^5.2.11",
+    "vue": "^3.4.27"
+  }
 }
 ```
 
