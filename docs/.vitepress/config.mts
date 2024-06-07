@@ -134,6 +134,10 @@ export default defineConfig({
             text: "Monorepo架构",
             link: "/note/project/Monorepo架构",
           },
+          {
+            text: "关于package.json你了解多少？",
+            link: "/note/project/关于package.json你了解多少",
+          },
         ],
       },
     ],
