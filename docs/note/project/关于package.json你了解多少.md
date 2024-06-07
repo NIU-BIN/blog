@@ -1,6 +1,6 @@
 ---
 category: project
-cover: https://cdn.pixabay.com/photo/2024/05/15/12/31/lake-8763490_640.jpg
+cover: https://cdn.pixabay.com/photo/2020/11/20/16/26/labrador-5762115_640.jpg
 ---
 
 # 关于 package.json 你了解多少?
