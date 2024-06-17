@@ -43,7 +43,7 @@ export default defineConfig({
         items: [
           {
             text: "网络",
-            link: "/note/network/OSI七层模型",
+            link: "/note/network/SSE",
           },
           {
             text: "项目",
@@ -73,72 +73,18 @@ export default defineConfig({
     sidebar: [
       {
         text: "CSS",
-        items: [
-          {
-            text: "grid布局",
-            link: "/front-end/CSS/grid布局",
-          },
-        ],
       },
       {
         text: "React",
-        items: [
-          {
-            text: "基础hook",
-            link: "/front-end/React/基础hook",
-          },
-          {
-            text: "性能优化相关hook",
-            link: "/front-end/React/性能优化相关hook",
-          },
-          {
-            text: "reducer",
-            link: "/front-end/React/reducer",
-          },
-        ],
       },
       {
         text: "Three.js",
-        items: [
-          {
-            text: "Three.js入门",
-            link: "/front-end/Three.js/Three.js入门",
-          },
-        ],
       },
       {
         text: "network",
-        items: [
-          {
-            text: "OSI七层模型",
-            link: "/note/network/OSI七层模型",
-          },
-          {
-            text: "TCP",
-            link: "/note/network/TCP",
-          },
-          {
-            text: "浏览器输入URL发生了什么",
-            link: "/note/network/浏览器输入URL发生了什么",
-          },
-          {
-            text: "SSE",
-            link: "/note/network/SSE",
-          },
-        ],
       },
       {
         text: "project",
-        items: [
-          {
-            text: "Monorepo架构",
-            link: "/note/project/Monorepo架构",
-          },
-          {
-            text: "关于package.json你了解多少？",
-            link: "/note/project/关于package.json你了解多少",
-          },
-        ],
       },
     ],
     socialLinks: [{ icon: "github", link: "https://github.com/NIU-BIN" }],
