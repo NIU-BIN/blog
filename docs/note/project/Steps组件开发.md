@@ -5,7 +5,7 @@ cover: https://cdn.pixabay.com/photo/2023/12/16/00/06/mountain-8451604_640.jpg
 
 # Steps 组件开发
 
-再开始之前我们需要考虑一下步骤条相关规则。
+在开始之前我们需要考虑一下步骤条相关规则。
 
 1. 步骤不能少于两个
 2. 步骤有完成状态、准备状态、未开始状态
@@ -444,3 +444,126 @@ step.less
 ![](http://tuchuang.niubin.site/image/project-20250108-6.png)
 
 ## 自定义图标
+
+我们设置一个 `icon` 属性，来设置 icon 的图形
+
+steps.js
+
+```js
+export const StepsProps = {
+  // ...
+  icon: {
+    type: String,
+    default: "",
+  },
+};
+```
+
+step.vue
+
+```html
+<template>
+  <div
+    class="t-step"
+    :class="{
+      is_complete: (currentIndex || 0) <= active - 1,
+      is_begining: (currentIndex || 0) === active,
+      't-step__center': align === 'center',
+      is_last_step: currentIndex === stepsUids.length - 1,
+    }"
+  >
+    <div class="t-step__head">
+      <span class="t-step__icon t-icon" :class="`${icon ? 'icon-' + icon : ''}`">
+        {{ icon ? "" : currentIndex + 1 }}</span
+      >
+      <div class="t-step__line" v-if="currentIndex !== stepsUids.length - 1"></div>
+    </div>
+    <!-- ... -->
+  </div>
+</template>
+```
+
+我们写一个示例看看
+
+```html
+<t-steps :active="active">
+  <t-step title="起床" icon="notification" />
+  <t-step title="炒股" icon="data-view" />
+  <t-step title="加仓" icon="good" />
+  <t-step title="亏大了" icon="cry" />
+</t-steps>
+```
+
+![](http://tuchuang.niubin.site/image/project-20250108-7.png)
+
+一般用户可能不太喜欢我们组件库自带的 icon，希望能自定义自己上传的，这时候我们可以设置一个插槽
+
+step.vue
+
+```html
+<template>
+  <div
+    class="t-step"
+    :class="{
+      is_complete: (currentIndex || 0) <= active - 1,
+      is_begining: (currentIndex || 0) === active,
+      't-step__center': align === 'center',
+      is_last_step: currentIndex === stepsUids.length - 1,
+    }"
+  >
+    <div class="t-step__head">
+      <span class="t-step__icon t-icon" :class="`${icon ? 'icon-' + icon : ''}`">
+        <template v-if="!slot.icon">{{ icon ? "" : currentIndex + 1 }}</template>
+        <slot name="icon" v-else></slot>
+      </span>
+      <div class="t-step__line" v-if="currentIndex !== stepsUids.length - 1"></div>
+    </div>
+    <div class="t-step__content">
+      <div class="t-step__title">{{ title }}</div>
+      <div class="t-step__description">{{ description }}</div>
+    </div>
+  </div>
+</template>
+<script setup>
+  import { ref, inject, computed, getCurrentInstance, useSlots } from "vue";
+  import { StepProps } from "./step";
+
+  const props = defineProps(StepProps);
+
+  defineOptions({
+    name: "t-step",
+  });
+  const instance = getCurrentInstance();
+  const stepsUids = inject("stepsUids");
+  const active = inject("active");
+  const align = inject("align");
+  const slot = useSlots();
+
+  const currentIndex = computed(() => {
+    return stepsUids.value.findIndex((uid) => uid === instance.uid);
+  });
+</script>
+```
+
+```html
+<t-steps :active="active" align="center">
+  <t-step title="起床">
+    <template #icon> &#127774; </template>
+  </t-step>
+  <t-step title="又亏了">
+    <template #icon> &#128201;</template>
+  </t-step>
+  <t-step title="继续加仓">
+    <template #icon> + </template>
+  </t-step>
+  <t-step title="亏成狗">
+    <template #icon> &#128021; </template>
+  </t-step>
+</t-steps>
+```
+
+> 这边直接使用 html 的 emoji，可以参考 [emoji](https://www.runoob.com/charsets/ref-emoji.html)
+
+看一下效果
+
+![](http://tuchuang.niubin.site/image/project-20250108-8.png)
