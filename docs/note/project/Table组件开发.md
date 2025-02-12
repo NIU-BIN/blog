@@ -338,8 +338,8 @@ const tableData = [
     const tableWrapperWidth = tbodyWrapperRef.value.offsetWidth;
     const columnWidthArrs = props.columnData
       .filter((item) => item.width)
-      .map((item) => item.width);
-    const sumOfColumnWidth = columnWidthArrs.reduce((x, y) => x + parseInt(y));
+      .map((item) => Number(item.width));
+    const sumOfColumnWidth = columnWidthArrs.reduce((x, y) => x + y, 0);
     averageWidth.value =
       (tableWrapperWidth - sumOfColumnWidth) /
       (props.columnData.length - columnWidthArrs.length);
@@ -752,10 +752,8 @@ export const TableProps = {
 
     const columnWidthArrs = props.columnData
       .filter((item) => item.width)
-      .map((item) => item.width);
-    const sumOfColumnWidth = columnWidthArrs.reduce(
-      (x, y) => parseInt(x) + parseInt(y)
-    );
+      .map((item) => Number(item.width));
+    const sumOfColumnWidth = columnWidthArrs.reduce((x, y) => x + y, 0);
 
     // 这里我们-8是因为滚动条的宽度是8px我们需要减掉再平均
     averageWidth.value = isOverflow.value
@@ -1091,6 +1089,8 @@ const columnData = [
 
 ## 固定列
 
+### 指定列宽度和列左右滚动
+
 在固定列之前我们先补充一个问题，那就是列的左右滚动，但是如果我们列特别多的时候我们上述写的默认是均分，那么每列的空间将会很小，这时候我们会设置每列的宽度，但是如果每列的宽度之和超出 table 原本的视口大小，我们又该怎么处理呢？
 
 我们先来看看现象吧。
@@ -1234,10 +1234,8 @@ const columnData = [
 
     const columnWidthArrs = props.columnData
       .filter((item) => item.width)
-      .map((item) => item.width);
-    const sumOfColumnWidth = columnWidthArrs.reduce(
-      (x, y) => parseInt(x) + parseInt(y)
-    );
+      .map((item) => Number(item.width));
+    const sumOfColumnWidth = columnWidthArrs.reduce((x, y) => x + y, 0);
 
     if (
       sumOfColumnWidth +
@@ -1336,3 +1334,812 @@ const columnData = [
   <!-- ... -->
 </div>
 ```
+
+现在我们只是完成了列宽和列的左右滚动，但是固定列还没做。
+
+### 列的固定
+
+之前我研究过 `element-ui` 的 table 组件，他的固定列是写了两个 table 的 tbody，固定列的收集起来作为一个 tbody，然后放在在原本的 tbody 上面，盖住原有的一部分。`element-plus` 则是使用 `position: sticky` 来做的。
+
+我们来实现一下：
+
+首先，我们在哪指定列固定呢？我们就放在我们配置列的 `column` 中，我们通过 `fixed` 字段来表示该列需要固定，当然，固定位置也要确认，我们给 `fixed` 字段来传递 `left` 和 `right` 来指定固定的位置。
+
+```js
+const columnData = [
+  {
+    key: "date",
+    label: "Date",
+    width: "120",
+    fixed: "left",
+  },
+  {
+    key: "name",
+    label: "Name",
+    width: "420",
+  },
+  {
+    key: "state",
+    label: "State",
+  },
+  {
+    key: "city",
+    label: "City",
+    width: "520",
+  },
+  {
+    key: "address",
+    label: "Address",
+    width: "820",
+  },
+  {
+    key: "zip",
+    label: "Zip",
+    fixed: "right",
+  },
+];
+```
+
+然后我们来给设置 class，在 class 中设置样式
+
+```html
+<template>
+  <div
+    :class="[
+      't-table',
+      border ? 't-table--border' : '',
+      verticalOverflow ? 't-table__has_scroll' : '',
+    ]"
+    ref="tableRef"
+  >
+    <div
+      class="t-table__thead-wrapper"
+      ref="theadWrapperRef"
+      style="overflow: hidden"
+    >
+      <table class="t-table__thead">
+        <colgroup>
+          <col
+            v-for="colItem in columnData"
+            :key="'table_col_' + colItem.key"
+            :width="colItem.width || averageWidth"
+          />
+          <col width="8" v-if="verticalOverflow" />
+        </colgroup>
+        <thead>
+          <tr>
+            <th
+              v-for="theadItem in columnData"
+              :key="theadItem.key"
+              :class="{
+                't-table__fixed-column': theadItem.fixed,
+                't-table__fixed-column--left': theadItem.fixed === 'left',
+                't-table__fixed-column--right': theadItem.fixed === 'right',
+              }"
+            >
+              <div
+                class="cell"
+                :style="{
+                  textAlign: theadItem.align || 'left',
+                }"
+              >
+                {{ theadItem.label }}
+              </div>
+            </th>
+          </tr>
+        </thead>
+      </table>
+    </div>
+    <div
+      class="t-table__tbody-wrapper"
+      :style="{
+        height: height ? height + 'px' : 'auto',
+        overflow: height ? 'auto' : 'hidden',
+      }"
+      ref="tbodyWrapperRef"
+    >
+      <table class="t-table__tbody">
+        <colgroup>
+          <col
+            v-for="colItem in columnData"
+            :key="'table_col_' + colItem.key"
+            :width="colItem.width || averageWidth"
+          />
+        </colgroup>
+        <tbody>
+          <tr
+            v-for="(rowItem, index) in tableData"
+            :key="'table_row_' + index"
+            :class="{
+              't-table__tbody--stripe': stripe && index % 2 === 1,
+            }"
+          >
+            <td
+              v-for="(colItem, i) in columnData"
+              :key="'table_col_' + i"
+              :class="{
+                't-table__fixed-column': colItem.fixed,
+                't-table__fixed-column--left': colItem.fixed === 'left',
+                't-table__fixed-column--right': colItem.fixed === 'right',
+              }"
+            >
+              <div
+                class="cell"
+                :style="{
+                  textAlign: colItem.align || 'left',
+                  justifyContent: colItem.align
+                    ? justifyContentMap[colItem.align]
+                    : 'flex-start',
+                }"
+              >
+                <slot
+                  :name="colItem.key"
+                  v-bind="{ scoped: rowItem, $index: index }"
+                >
+                  {{ rowItem[colItem.key] }}
+                </slot>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</template>
+```
+
+然后是样式
+
+```less
+.t-table__fixed-column {
+  position: sticky;
+  left: 0;
+  background-color: #fff;
+  &:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: -1px;
+    width: 10px;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    box-shadow: none;
+    touch-action: none;
+    pointer-events: none;
+  }
+  &.t-table__fixed-column.t-table__fixed-column--left {
+    &:before {
+      box-shadow: inset 10px 0 10px -10px rgba(0, 0, 0, 0.15);
+      right: -10px;
+    }
+  }
+  &.t-table__fixed-column.t-table__fixed-column--right {
+    right: 0;
+    &:before {
+      left: -10px;
+      box-shadow: inset -10px 0 10px -10px rgba(0, 0, 0, 0.15);
+    }
+  }
+}
+```
+
+![](http://tuchuang.niubin.site/image/project-20250120-20.png)
+
+我们发现头部固定右侧的出现的问题，原因是因为我们之前的 col 在计算宽度的时候是减去滚动条的宽度，而下面的 tbody 存在滚动条，左右等于头部少了一个滚动条的宽度，8px，所以我们针对头部处理一下
+
+```css
+.t-table__thead .t-table__fixed-column.t-table__fixed-column--right {
+  right: 8px;
+}
+```
+
+![](http://tuchuang.niubin.site/image/project-20250120-21.png)
+
+丸美！但是还有点小问题，我们是左右发生滚动的时候再给左右固定两侧添加阴影，这样可以方便看出来是否已经滚动到头或者还没滚动以及在中间位置，也就是在我们的滚动事件中看 scrollLeft 是否等于 0 或者等于最大滚动距离，如果是的话就移除阴影，如果不是的话就添加阴影，我们给左右固定列添加一个类名，然后根据这个类名来添加阴影。
+
+我们设置三种状态，开始、中间、结束，分别对应 start end center
+
+```html
+<template>
+  <div
+    :class="[
+      't-table',
+      border ? 't-table--border' : '',
+      verticalOverflow ? 't-table__has_scroll' : '',
+      `t-table__scroll-${scrollStatus}`,
+    ]"
+    ref="tableRef"
+  ></div>
+</template>
+<script setup>
+  const scrollStatus = ref("start"); // start end center
+
+  const listenScroll = (e) => {
+    const scrollLeft = e.target.scrollLeft;
+    scrollStatus.value =
+      scrollLeft === 0
+        ? "start"
+        : scrollLeft + e.target.offsetWidth >= e.target.scrollWidth
+        ? "end"
+        : "center";
+    theadWrapperRef.value.scrollLeft = scrollLeft;
+  };
+</script>
+```
+
+```css
+.t-table__scroll-start
+  .t-table__fixed-column.t-table__fixed-column--left:before {
+  box-shadow: none !important;
+}
+
+.t-table__scroll-end
+  .t-table__fixed-column.t-table__fixed-column--right:before {
+  box-shadow: none !important;
+}
+```
+
+![](http://tuchuang.niubin.site/image/project-20250120-22.png)
+![](http://tuchuang.niubin.site/image/project-20250120-23.png)
+
+到这就结束了吗？还没，我们固定列也会出现多个列固定，
+
+```js
+const columnData = [
+  {
+    key: "date",
+    label: "Date",
+    width: "120",
+    fixed: "left",
+  },
+  {
+    key: "name",
+    label: "Name",
+    width: "220",
+    fixed: "left",
+  },
+  {
+    key: "state",
+    label: "State",
+  },
+  {
+    key: "city",
+    label: "City",
+    width: "520",
+  },
+  {
+    key: "address",
+    label: "Address",
+    width: "820",
+  },
+  {
+    key: "zip",
+    label: "Zip",
+    fixed: "right",
+  },
+  {
+    key: "tag",
+    label: "Tag",
+    fixed: "right",
+  },
+];
+```
+
+我们可以通过当前 column 的下标以及固定的位置来计算对应的 left 或者 right
+
+```js
+const calcPosition = (direction, index, type) => {
+  if (direction === "left") {
+    const columnWidthArr = props.columnData
+      .slice(0, index)
+      .map((item) => (item.width ? Number(item.width) : MIN_COLUMN_WIDTH));
+    return columnWidthArr.reduce((x, y) => x + y, 0);
+  } else {
+    const columnWidthArr = props.columnData
+      .slice(index + 1)
+      .map((item) => (item.width ? Number(item.width) : MIN_COLUMN_WIDTH));
+    const rightDistance = columnWidthArr.reduce((x, y) => x + y, 0);
+    return type === "thead" ? rightDistance + 8 : rightDistance;
+  }
+};
+```
+
+然后设置对应的样式
+
+```html
+<template>
+  <div
+    :class="[
+      't-table',
+      border ? 't-table--border' : '',
+      verticalOverflow ? 't-table__has_scroll' : '',
+      `t-table__scroll-${scrollStatus}`,
+    ]"
+    ref="tableRef"
+  >
+    <div
+      class="t-table__thead-wrapper"
+      ref="theadWrapperRef"
+      style="overflow: hidden"
+    >
+      <table class="t-table__thead">
+        <colgroup>
+          <col
+            v-for="colItem in columnData"
+            :key="'table_col_' + colItem.key"
+            :width="colItem.width || averageWidth"
+          />
+          <col width="8" v-if="verticalOverflow" />
+        </colgroup>
+        <thead>
+          <tr>
+            <th
+              v-for="(theadItem, theadIndex) in columnData"
+              :key="theadItem.key"
+              :class="{
+                't-table__fixed-column': theadItem.fixed,
+                't-table__fixed-column--left': theadItem.fixed === 'left',
+                't-table__fixed-column--right': theadItem.fixed === 'right',
+              }"
+              :style="{
+                left:
+                  theadItem.fixed === 'left'
+                    ? calcPosition(theadItem.fixed, theadIndex) + 'px'
+                    : 'auto',
+                right:
+                  theadItem.fixed === 'right'
+                    ? calcPosition(theadItem.fixed, theadIndex, 'thead') + 'px'
+                    : 'auto',
+              }"
+            >
+              <div
+                class="cell"
+                :style="{
+                  textAlign: theadItem.align || 'left',
+                }"
+              >
+                {{ theadItem.label }}
+              </div>
+            </th>
+            <th></th>
+          </tr>
+        </thead>
+      </table>
+    </div>
+    <div
+      class="t-table__tbody-wrapper"
+      :style="{
+        height: height ? height + 'px' : 'auto',
+        overflow: height ? 'auto' : 'hidden',
+      }"
+      ref="tbodyWrapperRef"
+    >
+      <table class="t-table__tbody">
+        <colgroup>
+          <col
+            v-for="colItem in columnData"
+            :key="'table_col_' + colItem.key"
+            :width="colItem.width || averageWidth"
+          />
+        </colgroup>
+        <tbody>
+          <tr
+            v-for="(rowItem, index) in tableData"
+            :key="'table_row_' + index"
+            :class="{
+              't-table__tbody--stripe': stripe && index % 2 === 1,
+            }"
+          >
+            <td
+              v-for="(colItem, i) in columnData"
+              :key="'table_col_' + i"
+              :class="{
+                't-table__fixed-column': colItem.fixed,
+                't-table__fixed-column--left': colItem.fixed === 'left',
+                't-table__fixed-column--right': colItem.fixed === 'right',
+              }"
+              :style="{
+                left:
+                  colItem.fixed === 'left'
+                    ? calcPosition(colItem.fixed, i) + 'px'
+                    : 'auto',
+                right:
+                  colItem.fixed === 'right'
+                    ? calcPosition(colItem.fixed, i) + 'px'
+                    : 'auto',
+              }"
+            >
+              <div
+                class="cell"
+                :style="{
+                  textAlign: colItem.align || 'left',
+                  justifyContent: colItem.align
+                    ? justifyContentMap[colItem.align]
+                    : 'flex-start',
+                }"
+              >
+                <slot
+                  :name="colItem.key"
+                  v-bind="{ scoped: rowItem, $index: index }"
+                >
+                  {{ rowItem[colItem.key] }}
+                </slot>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</template>
+```
+
+![](http://tuchuang.niubin.site/image/project-20250120-24.png)
+
+现在基本上算是固定的位置正确了，但是细心的小伙伴会发现，我固定列的边框呢？似乎不见了，这样滚动的时候底下的文字会透过来，我们把固定列的背景色设置为透明的会发现，我们给 `td` 以及 `th` 设置的边框边框怎么跟着滚动跑了？？？
+
+这个问题困惑了许久，一步步排查，最后发现甜美的原来是给 `table` 设置的 `border-collapse: collapse;` 导致的，但是去掉之后我们 `tr` 设置的底部的线也就不出现了，我看了一下 element-plus，它给每行设置边框的时候都是通过 `th` 或者 `td` 给设置的，那就确实只能这么干了，我们修改一下之前给 `tr` 设置的边框，修改为在 `td` 中添加边框
+
+```less
+.t-table {
+  color: var(--t-text-color);
+  .t-table__thead-wrapper th {
+    border-bottom: 1px solid var(--t-border-color);
+  }
+  .t-table__thead,
+  .t-table__tbody {
+    width: 100%;
+    border-spacing: 0;
+    // border-collapse: collapse;
+    table-layout: fixed;
+  }
+  .t-table__thead tr > th,
+  .t-table__tbody tr > td {
+    padding: 8px 0;
+    text-align: left;
+  }
+  .t-table__tbody tr {
+    // 删除下行之前的这个边框
+    // border-bottom: 1px solid var(--t-border-color);
+    &:hover {
+      background-color: var(--t-hover-color);
+    }
+  }
+  // 给td设置
+  .t-table__tbody td {
+    border-bottom: 1px solid var(--t-border-color);
+  }
+}
+```
+
+这下就好了，太感动了，但是还有几个问题需要我们再处理，首先右侧固定的每列都出现了阴影，我们需要给右侧最左边的只需要设置阴影即可，以及左侧最后一个设置。
+
+这样我们收集一下固定在左侧的列和固定在右侧的列，然后根据对应的 key 来找到是否为左侧最后一个列和右侧第一个列。
+
+```js
+const queryFixedColumnIndex = (direction, key, sequence) => {
+  if (direction === "left" && sequence === "last") {
+    const index = fixedLeftColumns.value.findIndex((item) => item.key === key);
+    return index === fixedLeftColumns.value.length - 1;
+  } else if (direction === "right" && sequence === "first") {
+    const index = fixedRightColumns.value.findIndex((item) => item.key === key);
+    return index === 0;
+  } else {
+    return false;
+  }
+};
+
+watch(
+  () => props.columnData,
+  () => {
+    fixedLeftColumns.value = props.columnData.filter(
+      (item) => item.fixed === "left"
+    );
+    fixedRightColumns.value = props.columnData.filter(
+      (item) => item.fixed === "right"
+    );
+    nextTick(() => {
+      calcColumnWidth();
+    });
+  },
+  {
+    immediate: true,
+  }
+);
+
+// .....
+```
+
+我们只需要关心左侧的最后一个和右侧的第一个给设置阴影即可。
+
+```html
+<template>
+  <div
+    :class="[
+      't-table',
+      border ? 't-table--border' : '',
+      verticalOverflow ? 't-table__has_scroll' : '',
+      `t-table__scroll-${scrollStatus}`,
+    ]"
+    ref="tableRef"
+  >
+    <div
+      class="t-table__thead-wrapper"
+      ref="theadWrapperRef"
+      style="overflow: hidden"
+    >
+      <table class="t-table__thead">
+        <colgroup>
+          <col
+            v-for="colItem in columnData"
+            :key="'table_col_' + colItem.key"
+            :width="colItem.width || averageWidth"
+          />
+          <col width="8" v-if="verticalOverflow" />
+        </colgroup>
+        <thead>
+          <tr>
+            <th
+              v-for="(theadItem, theadIndex) in columnData"
+              :key="theadItem.key"
+              :class="{
+                't-table__fixed-column': theadItem.fixed,
+                't-table__fixed-column--left': theadItem.fixed === 'left',
+                't-table__fixed-column--right': theadItem.fixed === 'right',
+                't-table__fixed-column--first': queryFixedColumnIndex(
+                  theadItem.fixed,
+                  theadItem.key,
+                  'first'
+                ),
+                't-table__fixed-column--last': queryFixedColumnIndex(
+                  theadItem.fixed,
+                  theadItem.key,
+                  'last'
+                ),
+              }"
+              :style="{
+                left:
+                  theadItem.fixed === 'left'
+                    ? calcPosition(theadItem.fixed, theadIndex) + 'px'
+                    : 'auto',
+                right:
+                  theadItem.fixed === 'right'
+                    ? calcPosition(theadItem.fixed, theadIndex, 'thead') + 'px'
+                    : 'auto',
+              }"
+            >
+              <div
+                class="cell"
+                :style="{
+                  textAlign: theadItem.align || 'left',
+                }"
+              >
+                {{ theadItem.label }}
+              </div>
+            </th>
+          </tr>
+        </thead>
+      </table>
+    </div>
+    <div
+      class="t-table__tbody-wrapper"
+      :style="{
+        height: height ? height + 'px' : 'auto',
+        overflow: height ? 'auto' : 'hidden',
+      }"
+      ref="tbodyWrapperRef"
+    >
+      <table class="t-table__tbody">
+        <colgroup>
+          <col
+            v-for="colItem in columnData"
+            :key="'table_col_' + colItem.key"
+            :width="colItem.width || averageWidth"
+          />
+        </colgroup>
+        <tbody>
+          <tr
+            v-for="(rowItem, index) in tableData"
+            :key="'table_row_' + index"
+            :class="{
+              't-table__tbody--stripe': stripe && index % 2 === 1,
+            }"
+          >
+            <td
+              v-for="(colItem, i) in columnData"
+              :key="'table_col_' + i"
+              :class="{
+                't-table__fixed-column': colItem.fixed,
+                't-table__fixed-column--left': colItem.fixed === 'left',
+                't-table__fixed-column--right': colItem.fixed === 'right',
+                't-table__fixed-column--first': queryFixedColumnIndex(
+                  colItem.fixed,
+                  colItem.key,
+                  'first'
+                ),
+                't-table__fixed-column--last': queryFixedColumnIndex(
+                  colItem.fixed,
+                  colItem.key,
+                  'last'
+                ),
+              }"
+              :style="{
+                left:
+                  colItem.fixed === 'left'
+                    ? calcPosition(colItem.fixed, i) + 'px'
+                    : 'auto',
+                right:
+                  colItem.fixed === 'right'
+                    ? calcPosition(colItem.fixed, i) + 'px'
+                    : 'auto',
+              }"
+            >
+              <div
+                class="cell"
+                :style="{
+                  textAlign: colItem.align || 'left',
+                  justifyContent: colItem.align
+                    ? justifyContentMap[colItem.align]
+                    : 'flex-start',
+                }"
+              >
+                <slot
+                  :name="colItem.key"
+                  v-bind="{ scoped: rowItem, $index: index }"
+                >
+                  {{ rowItem[colItem.key] }}
+                </slot>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</template>
+```
+
+然后修改一下我们之前设置阴影部分的样式
+
+```less
+.t-table__fixed-column {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  background-color: #fff;
+  &:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: -1px;
+    width: 10px;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    box-shadow: none;
+    touch-action: none;
+    pointer-events: none;
+  }
+  &.t-table__fixed-column.t-table__fixed-column--left.t-table__fixed-column--last {
+    &:before {
+      box-shadow: inset 10px 0 10px -10px rgba(0, 0, 0, 0.15);
+      right: -10px;
+    }
+  }
+  &.t-table__fixed-column.t-table__fixed-column--right.t-table__fixed-column--first {
+    right: 0;
+    &:before {
+      left: -10px;
+      box-shadow: inset -10px 0 10px -10px rgba(0, 0, 0, 0.15);
+    }
+  }
+}
+```
+
+![](http://tuchuang.niubin.site/image/project-20250120-25.png)
+
+这下左右都只有一个阴影了。
+
+然后我们处理第二个问题，因为我们当时给 `thead` 部分设置了一个 `col` 占位，但是 `thead` 部分没有占位的 `th`，所以在滚动的时候占位这部分是透明的，底下的文字会透过来，所以我们在 `thead` 中还得在添加一个 `th`
+
+```html
+<th
+  v-if="verticalOverflow"
+  :class="{
+    't-table__fixed-column': fixedRightColumns.length,
+  }"
+  style="right: 0"
+></th>
+```
+
+还有一个问题，现在我们 `hover` 的时候只有不固定的才能显示我们设置的 `hover` 的背景色，那是因为我们给固定列设置了背景色，所以我们修改一下我们的样式，之前是 `tr:hover` 的时候给 `tr` 添加，现在我们改为 `tr:hover` 的时候给 `td` 添加背景色。
+
+```less
+.t-table__tbody tr {
+  &:hover td {
+    background-color: var(--t-hover-color);
+  }
+}
+```
+
+![](http://tuchuang.niubin.site/image/project-20250120-26.png)
+
+固定列到现在结束了吗？还没有，哈哈哈哈。
+
+实际上我们在给配置列的信息的时候，不会管列在数组中是第几位，靠左还是靠右，这么说吧，就是我列配置的数组第一项可以是靠右固定，然后第二项又不设置，第三项设置靠左固定，那我们这个是不是又坏掉了。实际也很简单，我们需要将传进来的 columnData 进行过滤，根据 `[...靠左固定，...不固定，...靠右固定]` 的原则进行排序，然后我们再根据这个排序后的数组进行渲染，element-plus 也是如此。
+
+```js
+const columnData = [
+  {
+    key: "zip",
+    label: "Zip",
+    fixed: "right",
+  },
+  {
+    key: "name",
+    label: "Name",
+    width: "220",
+    fixed: "left",
+  },
+  {
+    key: "state",
+    label: "State",
+  },
+  {
+    key: "date",
+    label: "Date",
+    width: "120",
+    fixed: "left",
+  },
+  {
+    key: "city",
+    label: "City",
+    width: "520",
+  },
+  {
+    key: "address",
+    label: "Address",
+    width: "820",
+  },
+  {
+    key: "tag",
+    label: "Tag",
+    fixed: "right",
+  },
+];
+```
+
+![](http://tuchuang.niubin.site/image/project-20250120-27.png)
+
+就成这个样子了。
+
+我们修改如下：
+
+```js
+const actualRenderColumns = ref([]); // 实际渲染的列
+
+watch(
+  () => props.columnData,
+  () => {
+    fixedLeftColumns.value = props.columnData.filter(
+      (item) => item.fixed === "left"
+    );
+    fixedRightColumns.value = props.columnData.filter(
+      (item) => item.fixed === "right"
+    );
+    const notFixedColumns = props.columnData.filter((item) => !item.fixed);
+    actualRenderColumns.value = [
+      ...fixedLeftColumns.value,
+      ...notFixedColumns,
+      ...fixedRightColumns.value,
+    ];
+    nextTick(() => {
+      calcColumnWidth();
+    });
+  },
+  {
+    immediate: true,
+  }
+);
+```
+
+然后将之前里面使用到 `columnData` 的替换为 `actualRenderColumns` 即可。
