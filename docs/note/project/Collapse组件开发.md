@@ -232,3 +232,260 @@ collapse-item.vue
   };
 </script>
 ```
+
+我们目前算是收集了我们目前所展开的面板的 `name`，接下来我们让所有的面板默认折叠，然后点击了 `title` 部分展开，再次点击展开的然后折叠。
+
+```html
+<template>
+  <div class="t-collapse-item">
+    <!-- ... -->
+    <div class="t-collapse-item__content" v-show="opened.includes(name)">
+      <slot />
+    </div>
+  </div>
+</template>
+
+<script setup>
+  // ...
+
+  const props = defineProps(CollapseItemProps);
+  const opened = inject("opened");
+  const changeOpened = inject("changeOpened");
+
+  const handleClickCollapse = () => {
+    changeOpened(props.name);
+  };
+</script>
+```
+
+现在虽然可以开合，我们想要一个高度从 0 到目前内容最高的一个过渡动画，这个可以参考我之前的文章。
+
+我们现在修改一下结构和样式
+
+```html
+<template>
+  <div
+    :class="`t-collapse-item ${
+      opened.includes(name) ? 't-collapse-item--active' : ''
+    }`"
+  >
+    <div class="t-collapse-item__header" @click="handleClickCollapse">
+      <div class="t-collapse-item__header-title">{{ title }}</div>
+      <i class="t-icon icon-arrow-right"></i>
+    </div>
+    <div class="t-collapse-item__content">
+      <div class="t-collapse-item__reference">
+        <div class="t-collapse-item__body">
+          <slot />
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup>
+  import { CollapseItemProps } from "./collapse-item";
+  import { inject } from "vue";
+
+  defineOptions({
+    name: "t-collapse-item",
+  });
+
+  const props = defineProps(CollapseItemProps);
+  const opened = inject("opened");
+  const changeOpened = inject("changeOpened");
+
+  const handleClickCollapse = () => {
+    changeOpened(props.name);
+  };
+</script>
+```
+
+```less
+.t-collapse-item {
+  border-bottom: 1px solid var(--t-border-color);
+  .t-collapse-item__header {
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    color: var(--t-text-color);
+    cursor: pointer;
+    .icon-arrow-right {
+      color: var(--icon);
+    }
+  }
+  .t-collapse-item__content {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.3s ease;
+    font-size: 13px;
+    color: var(--t-text-color);
+    .t-collapse-item__reference {
+      overflow: hidden;
+    }
+    .t-collapse-item__body {
+      padding-bottom: 20px;
+    }
+  }
+  &.t-collapse-item--active {
+    .t-collapse-item__content {
+      grid-template-rows: 1fr;
+    }
+  }
+}
+```
+
+这下动画就加上了。
+
+还有一个右边的图标，我们展开的时候是是朝下的，有人会想到那直接两个图标切换就好了，但是这样在切换的时候是添加不了动画或者过度效果的，所以我们依旧使用之前向右的箭头，只是打开的时候我们顺时针旋转 90 度即可。
+
+```less
+.t-collapse-item {
+  // ...
+  &.t-collapse-item--active {
+    .t-collapse-item__content {
+      grid-template-rows: 1fr;
+    }
+    .icon-arrow-right {
+      transform: rotate(90deg);
+      transition: all 0.3s;
+    }
+  }
+}
+```
+
+## 手风琴效果
+
+这个很简单，就是我们点击一个的时候别的都折叠，如果点击的当前为展开状态，则折叠，反之则展开。
+
+我们定义一个属性 `accordion`，来决定是否需要手风琴效果。
+
+collapse.js
+
+```js
+export const CollapseProps = {
+  accordion: {
+    type: Boolean,
+    default: false,
+  },
+};
+```
+
+collapse.vue
+
+```js
+const changeOpened = (name) => {
+  if (props.accordion) {
+    opened.value = opened.value.includes(name) ? [] : [name];
+  } else {
+    opened.value.includes(name)
+      ? (opened.value = opened.value.filter((item) => item !== name))
+      : (opened.value = [...opened.value, name]);
+  }
+};
+```
+
+## 自定义面板标题和图标
+
+这个简单，直接把 `title` 和 `icon` 部分改为插槽即可
+
+```html
+<template>
+  <div
+    :class="`t-collapse-item ${
+      opened.includes(name) ? 't-collapse-item--active' : ''
+    }`"
+  >
+    <div class="t-collapse-item__header" @click="handleClickCollapse">
+      <div class="t-collapse-item__header-title">
+        <slot name="title"> {{ title }} </slot>
+      </div>
+      <slot name="icon">
+        <i class="t-icon icon-arrow-right"></i>
+      </slot>
+    </div>
+    <div class="t-collapse-item__content">
+      <div class="t-collapse-item__reference">
+        <div class="t-collapse-item__body">
+          <slot />
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+```
+
+我们可以给插槽暴露一个属性 `isActive`，表示当前是否展开，这样他可以根据不同的状态来显示不同的图标
+
+```html
+<template>
+  <div
+    :class="`t-collapse-item ${
+      opened.includes(name) ? 't-collapse-item--active' : ''
+    }`"
+  >
+    <div class="t-collapse-item__header" @click="handleClickCollapse">
+      <div class="t-collapse-item__header-title">
+        <slot name="title"> {{ title }} </slot>
+      </div>
+      <div>
+        <slot name="icon" :isActive="opened.includes(name)">
+          <i class="t-icon icon-arrow-right"></i>
+        </slot>
+      </div>
+    </div>
+    <div class="t-collapse-item__content">
+      <div class="t-collapse-item__reference">
+        <div class="t-collapse-item__body">
+          <slot />
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+```
+
+我们来试一下
+
+```html
+<t-collapse v-model="activeNames2">
+  <t-collapse-item name="1">
+    <template #title>
+      Consistency
+      <i class="t-icon icon-email" />
+    </template>
+    <div>
+      Consistent with real life: in line with the process and logic of real
+      life, and comply with languages and habits that the users are used to;
+    </div>
+  </t-collapse-item>
+  <t-collapse-item title="Feedback" name="2">
+    <template #icon="{ isActive }">
+      <i
+        :class="`t-icon ${
+              isActive ? 'icon-arrow-down-filling' : 'icon-arrow-right-filling'
+            }`"
+      />
+    </template>
+    <div>
+      Operation feedback: enable the users to clearly perceive their operations
+      by style updates and interactive effects;
+    </div>
+  </t-collapse-item>
+  <t-collapse-item title="Efficiency" name="3">
+    <div>
+      Simplify the process: keep operating process simple and intuitive;
+    </div>
+  </t-collapse-item>
+  <t-collapse-item title="Controllability" name="4">
+    <div>
+      Decision making: giving advices about operations is acceptable, but do not
+      make decisions for the users;
+    </div>
+  </t-collapse-item>
+</t-collapse>
+```
+
+![](http://tuchuang.niubin.site/image/project-20250212-3.png)
