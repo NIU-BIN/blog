@@ -352,4 +352,209 @@ each(@span, {
 
 ![](http://tuchuang.niubin.site/image/project-20250221-6.png)
 
-这时候发现其实是有问题的，因为 gap 只给以存在的 col 与 col 之间设置了，这样按照 24 个 span 分出来主要存在我偏移了 6 个 span，然后我配置一个 18 个 span，下来其实少了一个 gutter，所以我们不能通过 gap 设置了，那我们
+这时候发现其实是有问题的，因为 `gap` 只给以存在的 `col` 与 `col` 之间设置了，这样按照 24 个 `span` 分出来主要存在我偏移了 6 个 `span`，然后我配置一个 18 个 `span`，下来其实少了一个 `gutter`，所以我们不能通过 `gap` 设置了，那我们怎么处理呢？
+
+我看了一下 element-plus 的方案，他是给每一个 `col` 设置一个左右的 `padding` 各为 `gap` 的一半，然后这样的话总体加起来左右会各多出一半的 `gap`，然后在 `row` 上再给左右各设置一个负的 `margin`，且也为 `gap` 的一半，这样就可以把多出来的 `padding` 给抵消掉，但是其实是有问题的，我尝试将 element-plus 的 gutter 间隔设置大一些的时候发现可以左右滚动了，但是造成滚动的主要是右侧的` margin`，这样的话我们可以再包裹一层，然后在最外面直接设置一个 `overflow: hidden`，这样就可以解决了。
+
+![](http://tuchuang.niubin.site/image/project-20250221-7.png)
+
+row.vue
+
+```html
+<div
+  class="t-row"
+  :style="{
+        marginLeft: gutter ? -gutter / 2 + 'px' : 0,
+        marginRight: gutter ? -gutter / 2 + 'px' : 0,
+      }"
+>
+  <slot></slot>
+</div>
+
+<script setup>
+  // ...
+  const props = defineProps(RowProps);
+
+  provide("gutter", props.gutter);
+</script>
+```
+
+将 `gutter` 提供注入给 `col`
+
+```html
+<template>
+  <div
+    :class="[
+      't-col',
+      span && `t-col-${span}`,
+      offset && `t-col-offset-${offset}`,
+    ]"
+    :style="{
+      paddingLeft: gutter ? gutter / 2 + 'px' : '0',
+      paddingRight: gutter ? gutter / 2 + 'px' : '0',
+    }"
+  >
+    <slot></slot>
+  </div>
+</template>
+<script setup>
+  import { ColProps } from "./col";
+  import { inject } from "vue";
+
+  defineOptions({
+    name: "t-col",
+  });
+
+  const props = defineProps(ColProps);
+
+  const gutter = inject("gutter");
+</script>
+```
+
+现在我们如果 gutter 设置大的时候你就会发现可以左右滚动了，这时候我们修改一下 row 的结构，再加一层，然后设置 `overflow: hidden`
+
+```html
+<template>
+  <div class="t-row">
+    <div
+      class="t-row__wapper"
+      :style="{
+        marginLeft: gutter ? -gutter / 2 + 'px' : 0,
+        marginRight: gutter ? -gutter / 2 + 'px' : 0,
+      }"
+    >
+      <slot></slot>
+    </div>
+  </div>
+</template>
+<script setup>
+  import { provide } from "vue";
+  import { RowProps } from "./row";
+
+  defineOptions({
+    name: "t-row",
+  });
+
+  const props = defineProps(RowProps);
+
+  provide("gutter", props.gutter);
+</script>
+```
+
+```less
+.t-row {
+  overflow: hidden;
+}
+.t-row__wapper {
+  display: flex;
+  flex-wrap: wrap;
+  box-sizing: border-box;
+  position: relative;
+}
+```
+
+我们写一个示例来看看效果
+
+```html
+<t-row :gutter="20">
+  <t-col :span="6"><div class="grid-content ep-bg-purple" /></t-col>
+  <t-col :span="6" :offset="6">
+    <div class="grid-content ep-bg-purple" />
+  </t-col>
+</t-row>
+<t-row :gutter="20">
+  <t-col :span="6" :offset="6">
+    <div class="grid-content ep-bg-purple" />
+  </t-col>
+  <t-col :span="6" :offset="6">
+    <div class="grid-content ep-bg-purple" />
+  </t-col>
+</t-row>
+<t-row :gutter="20">
+  <t-col :span="12" :offset="6">
+    <div class="grid-content ep-bg-purple" />
+  </t-col>
+</t-row>
+```
+
+![](http://tuchuang.niubin.site/image/project-20250221-8.png)
+
+## 对齐方式
+
+这个功能很简单，我们再给 row 添加一个 `justify` 属性，用来设置水平对齐方式，跟 `flex` 对齐一致
+
+row.js
+
+```js
+const ROW_JUSTIFY = ["start", "end", "center", "space-around", "space-between"];
+
+export const RowProps = {
+  gutter: {
+    type: Number,
+    default: 0,
+  },
+  justify: {
+    type: String,
+    default: "start",
+    validator: (value) => {
+      return ROW_JUSTIFY.includes(value);
+    },
+  },
+};
+```
+
+row.vue
+
+```html
+<template>
+  <div class="t-row">
+    <div
+      class="t-row__wapper"
+      :style="{
+        marginLeft: gutter ? -gutter / 2 + 'px' : 0,
+        marginRight: gutter ? -gutter / 2 + 'px' : 0,
+        justifyContent: justify,
+      }"
+    >
+      <slot></slot>
+    </div>
+  </div>
+</template>
+```
+
+写一下示例看看效果
+
+```html
+<t-row class="row-bg">
+  <t-col :span="6"><div class="grid-content ep-bg-purple" /></t-col>
+  <t-col :span="6"><div class="grid-content ep-bg-purple-light" /></t-col>
+  <t-col :span="6"><div class="grid-content ep-bg-purple" /></t-col>
+</t-row>
+<t-row class="row-bg" justify="center">
+  <t-col :span="6"><div class="grid-content ep-bg-purple" /></t-col>
+  <t-col :span="6"><div class="grid-content ep-bg-purple-light" /></t-col>
+  <t-col :span="6"><div class="grid-content ep-bg-purple" /></t-col>
+</t-row>
+<t-row class="row-bg" justify="end">
+  <t-col :span="6"><div class="grid-content ep-bg-purple" /></t-col>
+  <t-col :span="6"><div class="grid-content ep-bg-purple-light" /></t-col>
+  <t-col :span="6"><div class="grid-content ep-bg-purple" /></t-col>
+</t-row>
+<t-row class="row-bg" justify="space-between">
+  <t-col :span="6"><div class="grid-content ep-bg-purple" /></t-col>
+  <t-col :span="6"><div class="grid-content ep-bg-purple-light" /></t-col>
+  <t-col :span="6"><div class="grid-content ep-bg-purple" /></t-col>
+</t-row>
+<t-row class="row-bg" justify="space-around">
+  <t-col :span="6"><div class="grid-content ep-bg-purple" /></t-col>
+  <t-col :span="6"><div class="grid-content ep-bg-purple-light" /></t-col>
+  <t-col :span="6"><div class="grid-content ep-bg-purple" /></t-col>
+</t-row>
+<t-row class="row-bg" justify="space-evenly">
+  <t-col :span="6"><div class="grid-content ep-bg-purple" /></t-col>
+  <t-col :span="6"><div class="grid-content ep-bg-purple-light" /></t-col>
+  <t-col :span="6"><div class="grid-content ep-bg-purple" /></t-col>
+</t-row>
+```
+
+![](http://tuchuang.niubin.site/image/project-20250221-9.png)
