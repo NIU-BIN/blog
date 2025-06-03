@@ -40,7 +40,7 @@
 import { ElPagination } from "element-plus";
 import { useRouter } from "vitepress";
 import type { ArticleItem } from "../../../../types";
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 
 interface IProps {
   list: ArticleItem[];
@@ -49,7 +49,7 @@ interface IProps {
 
 const currentPage = ref(1);
 const pageSize = ref(5);
-const screenHeight = window.innerHeight;
+const screenHeight = ref(0);
 
 defineProps<IProps>();
 
@@ -62,11 +62,15 @@ const linkTo = (article: ArticleItem) => {
 
 const handleCurrentChange = (val: number) => {
   document.documentElement.scrollTo({
-    top: screenHeight - 60,
+    top: screenHeight.value - 60,
     behavior: "smooth",
   });
   currentPage.value = val;
 };
+
+onMounted(() => {
+  screenHeight.value = window.innerHeight;
+});
 </script>
 <style lang="less" scoped>
 .article_list_box {
