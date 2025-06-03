@@ -1,6 +1,6 @@
 ---
 category: project
-cover: https://cdn.pixabay.com/photo/2023/12/16/00/06/mountain-8451604_640.jpg
+cover: https://cdn.pixabay.com/photo/2025/05/05/01/55/ladybug-9579282_1280.jpg
 ---
 
 # Pagination 组件开发
@@ -43,9 +43,15 @@ pagination.vue
 <template>
   <div class="t-pagination">
     <ul class="t-pagination-list">
-      <li class="t-pagination-pre t-icon icon-arrow-left-bold t-pagination-item"></li>
-      <li v-for="page in pageCount" :key="page" class="t-pagination-item">{{ page }}</li>
-      <li class="t-pagination-next t-icon icon-arrow-right-bold t-pagination-item"></li>
+      <li
+        class="t-pagination-pre t-icon icon-arrow-left-bold t-pagination-item"
+      ></li>
+      <li v-for="page in pageCount" :key="page" class="t-pagination-item">
+        {{ page }}
+      </li>
+      <li
+        class="t-pagination-next t-icon icon-arrow-right-bold t-pagination-item"
+      ></li>
     </ul>
   </div>
 </template>
@@ -135,7 +141,9 @@ pagination.less
 <template>
   <div class="t-pagination">
     <ul class="t-pagination-list">
-      <li class="t-pagination-pre t-icon icon-arrow-left-bold t-pagination-item"></li>
+      <li
+        class="t-pagination-pre t-icon icon-arrow-left-bold t-pagination-item"
+      ></li>
       <li
         class="t-pagination-item"
         :class="{ 't-pagination-item__active': firstPage === currentPage }"
@@ -143,7 +151,10 @@ pagination.less
       >
         {{ firstPage }}
       </li>
-      <li class="t-pagination-item t-icon icon-elipsis" v-if="showFrontEllipsis"></li>
+      <li
+        class="t-pagination-item t-icon icon-elipsis"
+        v-if="showFrontEllipsis"
+      ></li>
       <li
         v-for="page in centerPages"
         :key="page"
@@ -153,7 +164,10 @@ pagination.less
       >
         {{ page }}
       </li>
-      <li class="t-pagination-item t-icon icon-elipsis" v-if="showEndEllipsis"></li>
+      <li
+        class="t-pagination-item t-icon icon-elipsis"
+        v-if="showEndEllipsis"
+      ></li>
       <li
         class="t-pagination-item"
         :class="{ 't-pagination-item__active': lastPage === currentPage }"
@@ -161,7 +175,9 @@ pagination.less
       >
         {{ lastPage }}
       </li>
-      <li class="t-pagination-next t-icon icon-arrow-right-bold t-pagination-item"></li>
+      <li
+        class="t-pagination-next t-icon icon-arrow-right-bold t-pagination-item"
+      ></li>
     </ul>
   </div>
 </template>
@@ -298,7 +314,9 @@ const handleChangeCurrentPage = (page) => {
 <template>
   <div class="t-pagination">
     <ul class="t-pagination-list">
-      <li class="t-pagination-pre t-icon icon-arrow-left-bold t-pagination-item"></li>
+      <li
+        class="t-pagination-pre t-icon icon-arrow-left-bold t-pagination-item"
+      ></li>
       <li
         class="t-pagination-item"
         :class="{ 't-pagination-item__active': firstPage === currentPage }"
@@ -332,7 +350,9 @@ const handleChangeCurrentPage = (page) => {
       >
         {{ lastPage }}
       </li>
-      <li class="t-pagination-next t-icon icon-arrow-right-bold t-pagination-item"></li>
+      <li
+        class="t-pagination-next t-icon icon-arrow-right-bold t-pagination-item"
+      ></li>
     </ul>
   </div>
 </template>
@@ -452,7 +472,9 @@ const handleChangeCurrentPage = (page) => {
     if (direction === "forward") {
       emit(
         "update:current-page",
-        props.currentPage + 5 > lastPage.value ? lastPage.value : props.currentPage + 5
+        props.currentPage + 5 > lastPage.value
+          ? lastPage.value
+          : props.currentPage + 5
       );
     } else {
       emit(
@@ -487,7 +509,9 @@ const handlePageGo = (direction, num) => {
   if (direction === "forward") {
     emit(
       "update:current-page",
-      props.currentPage + num > lastPage.value ? lastPage.value : props.currentPage + num
+      props.currentPage + num > lastPage.value
+        ? lastPage.value
+        : props.currentPage + num
     );
   } else {
     emit(
@@ -648,7 +672,11 @@ const handlePageGo = (direction, num) => {
   const handleGoToPage = () => {
     if (goToNum.value) {
       const targetPageNum =
-        goToNum.value < 0 ? 1 : goToNum.value > lastPage.value ? lastPage.value : goToNum.value;
+        goToNum.value < 0
+          ? 1
+          : goToNum.value > lastPage.value
+          ? lastPage.value
+          : goToNum.value;
       goToNum.value = targetPageNum;
       emit("update:current-page", targetPageNum);
     }

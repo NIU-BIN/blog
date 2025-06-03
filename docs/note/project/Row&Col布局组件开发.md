@@ -1,6 +1,6 @@
 ---
 category: project
-cover: https://cdn.pixabay.com/photo/2023/12/16/00/06/mountain-8451604_640.jpg
+cover: https://cdn.pixabay.com/photo/2025/05/24/23/16/fallow-9620489_1280.jpg
 ---
 
 # Row & Col 布局组件开发

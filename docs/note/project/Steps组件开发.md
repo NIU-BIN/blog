@@ -1,6 +1,6 @@
 ---
 category: project
-cover: https://cdn.pixabay.com/photo/2023/12/16/00/06/mountain-8451604_640.jpg
+cover: https://cdn.pixabay.com/photo/2025/05/07/19/13/soap-bubbles-9585871_1280.jpg
 ---
 
 # Steps 组件开发
@@ -186,7 +186,9 @@ onMounted(() => {
 
 const getStepUids = () => {
   const instance = getCurrentInstance();
-  const defaultSlots = instance.subTree.children.find((t) => t.key === "_default");
+  const defaultSlots = instance.subTree.children.find(
+    (t) => t.key === "_default"
+  );
   if (defaultSlots) {
     stepsUids.value = defaultSlots.children
       .filter((vnode) => vnode.type.name === "t-step")
@@ -473,10 +475,16 @@ step.vue
     }"
   >
     <div class="t-step__head">
-      <span class="t-step__icon t-icon" :class="`${icon ? 'icon-' + icon : ''}`">
+      <span
+        class="t-step__icon t-icon"
+        :class="`${icon ? 'icon-' + icon : ''}`"
+      >
         {{ icon ? "" : currentIndex + 1 }}</span
       >
-      <div class="t-step__line" v-if="currentIndex !== stepsUids.length - 1"></div>
+      <div
+        class="t-step__line"
+        v-if="currentIndex !== stepsUids.length - 1"
+      ></div>
     </div>
     <!-- ... -->
   </div>
@@ -512,11 +520,19 @@ step.vue
     }"
   >
     <div class="t-step__head">
-      <span class="t-step__icon t-icon" :class="`${icon ? 'icon-' + icon : ''}`">
-        <template v-if="!slot.icon">{{ icon ? "" : currentIndex + 1 }}</template>
+      <span
+        class="t-step__icon t-icon"
+        :class="`${icon ? 'icon-' + icon : ''}`"
+      >
+        <template v-if="!slot.icon"
+          >{{ icon ? "" : currentIndex + 1 }}</template
+        >
         <slot name="icon" v-else></slot>
       </span>
-      <div class="t-step__line" v-if="currentIndex !== stepsUids.length - 1"></div>
+      <div
+        class="t-step__line"
+        v-if="currentIndex !== stepsUids.length - 1"
+      ></div>
     </div>
     <div class="t-step__content">
       <div class="t-step__title">{{ title }}</div>

@@ -1,6 +1,6 @@
 ---
 category: project
-cover: https://cdn.pixabay.com/photo/2023/12/16/00/06/mountain-8451604_640.jpg
+cover: https://cdn.pixabay.com/photo/2025/05/04/18/04/robin-9578746_1280.jpg
 ---
 
 # Table 组件开发

@@ -1,6 +1,6 @@
 ---
 category: project
-cover: https://cdn.pixabay.com/photo/2023/12/16/00/06/mountain-8451604_640.jpg
+cover: https://cdn.pixabay.com/photo/2025/03/09/10/16/sunrise-9456871_1280.jpg
 ---
 
 # Tree 组件开发
@@ -83,7 +83,11 @@ tree-node.vue
     </div>
     <!-- children -->
     <div class="t-tree-node__children">
-      <t-tree-node v-for="child in node.children" :key="child.id" :node="child" />
+      <t-tree-node
+        v-for="child in node.children"
+        :key="child.id"
+        :node="child"
+      />
     </div>
   </div>
 </template>
@@ -209,7 +213,8 @@ const treeData = [
       <div
         class="t-icon icon-arrow-right-filling"
         :style="{
-          visibility: node.children && node.children.length ? 'visible' : 'hidden',
+          visibility:
+            node.children && node.children.length ? 'visible' : 'hidden',
           transform: showChild ? 'rotateZ(90deg)' : '',
         }"
         @click="showChild = !showChild"
@@ -218,7 +223,11 @@ const treeData = [
     </div>
     <!-- children -->
     <div class="t-tree-node__children" v-show="showChild">
-      <t-tree-node v-for="child in node.children" :key="child.id" :node="child" />
+      <t-tree-node
+        v-for="child in node.children"
+        :key="child.id"
+        :node="child"
+      />
     </div>
   </div>
 </template>
@@ -328,7 +337,8 @@ tree-node.vue
       <div
         class="t-icon icon-arrow-right-filling"
         :style="{
-          visibility: node.children && node.children.length ? 'visible' : 'hidden',
+          visibility:
+            node.children && node.children.length ? 'visible' : 'hidden',
           transform: showChild ? 'rotateZ(90deg)' : '',
         }"
         @click.stop="showChild = !showChild"
@@ -430,7 +440,8 @@ tree-node.vue
       <div
         class="t-icon icon-arrow-right-filling"
         :style="{
-          visibility: node.children && node.children.length ? 'visible' : 'hidden',
+          visibility:
+            node.children && node.children.length ? 'visible' : 'hidden',
           transform: showChild ? 'rotateZ(90deg)' : '',
         }"
         @click.stop="showChild = !showChild"
@@ -477,9 +488,15 @@ const getCheckType = computed(() => {
   let checkType = "";
   if (props.node.isChecked) {
     checkType = "all";
-  } else if (props.node.children && props.node.children.every((item) => item.isChecked === true)) {
+  } else if (
+    props.node.children &&
+    props.node.children.every((item) => item.isChecked === true)
+  ) {
     checkType = "all";
-  } else if (props.node.children && props.node.children.some((item) => item.isChecked === true)) {
+  } else if (
+    props.node.children &&
+    props.node.children.some((item) => item.isChecked === true)
+  ) {
     checkType = "some";
   } else {
     checkType = "none";
@@ -542,7 +559,8 @@ const changeAllCheckStatus = (node) => {
 const changeChildCheckStatus = (children, isChecked) => {
   children.forEach((node) => {
     node.isChecked = isChecked;
-    if (node.children && node.children.length) changeChildCheckStatus(node.children, isChecked);
+    if (node.children && node.children.length)
+      changeChildCheckStatus(node.children, isChecked);
   });
 };
 ```
@@ -632,7 +650,8 @@ export const TreeNodeEmits = ["handleClickNode", "changeCheckStatus"];
       <div
         class="t-icon icon-arrow-right-filling"
         :style="{
-          visibility: node.children && node.children.length ? 'visible' : 'hidden',
+          visibility:
+            node.children && node.children.length ? 'visible' : 'hidden',
           transform: showChild ? 'rotateZ(90deg)' : '',
         }"
         @click.stop="showChild = !showChild"

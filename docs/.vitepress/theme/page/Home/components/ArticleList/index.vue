@@ -49,6 +49,7 @@ interface IProps {
 
 const currentPage = ref(1);
 const pageSize = ref(5);
+const screenHeight = window.innerHeight;
 
 defineProps<IProps>();
 
@@ -60,6 +61,10 @@ const linkTo = (article: ArticleItem) => {
 };
 
 const handleCurrentChange = (val: number) => {
+  document.documentElement.scrollTo({
+    top: screenHeight - 60,
+    behavior: "smooth",
+  });
   currentPage.value = val;
 };
 </script>

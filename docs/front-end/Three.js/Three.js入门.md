@@ -1,6 +1,6 @@
 ---
 category: Three.js
-cover: https://cdn.pixabay.com/photo/2014/04/14/20/11/pink-324175_640.jpg
+cover: https://cdn.pixabay.com/photo/2025/04/21/14/54/daisies-9547672_1280.jpg
 sticky: 3
 ---
 

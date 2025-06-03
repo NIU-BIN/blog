@@ -1,3 +1,8 @@
+---
+category: project
+cover: https://cdn.pixabay.com/photo/2025/02/12/13/21/country-9401550_1280.jpg
+---
+
 # 微前端换 iframe 方案
 
 在某个 Vue3 项目中，需要将已有的平台合并进新的平台，由于代码迁移太过繁琐，于是最先想到的就是微前端方案，但是碰到了许多问题，最终还是放弃了。
@@ -33,7 +38,8 @@
   const app1 = ref();
 
   const send = () => {
-    app1.value && app1.value.contentWindow?.postMessage("我是主应用发送过来的消息");
+    app1.value &&
+      app1.value.contentWindow?.postMessage("我是主应用发送过来的消息");
   };
 
   window.addEventListener(
@@ -79,7 +85,12 @@ const send = () => {
 ```html
 <template>
   <div id="container">
-    <iframe :src="`${origin}/app1`" ref="app1" frameborder="0" :onload="postMessage"></iframe>
+    <iframe
+      :src="`${origin}/app1`"
+      ref="app1"
+      frameborder="0"
+      :onload="postMessage"
+    ></iframe>
   </div>
 </template>
 <script setup>
@@ -179,7 +190,8 @@ const initApp = (routeData) => {
     history: createWebHistory("/app1"),
   });
   app.use(router).mount("#app");
-  const currentPath = localStorage.getItem("app1-route") || JSON.parse(routeData)[0].path; // 获取缓存中的路径，没有则需要递归查找第一个路径进行跳转
+  const currentPath =
+    localStorage.getItem("app1-route") || JSON.parse(routeData)[0].path; // 获取缓存中的路径，没有则需要递归查找第一个路径进行跳转
   router.push(currentPath);
 };
 ```
@@ -428,7 +440,8 @@ const initApp = (menuData) => {
 
     store = appStore();
   }
-  const currentPath = localStorage.getItem("app-route") || JSON.parse(menuData)[0].path;
+  const currentPath =
+    localStorage.getItem("app-route") || JSON.parse(menuData)[0].path;
   router.push(currentPath);
 };
 
