@@ -3,6 +3,24 @@ import { fileURLToPath, URL } from "node:url";
 import { themeConfig } from "./theme-config";
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
+  // title: "友人Aの博客",
+  description: "友人A的博客",
+  head: [
+    [
+      'meta',
+      {
+        name: 'keywords',
+        content: 'niubin,友人A,博客,前端,友人Aの博客,友人A的博客,niubin.site'
+      }
+    ],
+    [
+      'meta',
+      {
+        name: 'author', content: 'niubin'
+      }
+    ],
+    ['meta', { property: 'og:site_name', content: '友人Aの博客' }],
+  ],
   extends: {
     themeConfig,
   },
